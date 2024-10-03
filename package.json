@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "name": "my-app",
   "version": "0.1.0",
   "private": true,
@@ -34,9 +33,5 @@
     "eslint-config-next": "14.2.12",
     "postcss": "^8",
     "tailwindcss": "^3.4.1"
-=======
-  "dependencies": {
-    "framer-motion": "^11.5.6"
->>>>>>> 4df5a4ea7a9ae657d1cb9fd31da8a102c6e3bae8
   }
 }
