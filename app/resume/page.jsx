@@ -17,7 +17,7 @@ import {
 const about = {
   title: "À propos de moi",
   description:
-    "Étudiant en Master 2 spécialisé en développement web et technologies cloud, je suis passionné par la création de solutions logicielles élégantes et performantes. Je recherche un stage de fin d’études pour mettre en pratique mes compétences en ingénierie logicielle et contribuer à des projets innovants.",
+    "Diplômé d'un Master 2 spécialisé en développement web et technologies cloud, je suis passionné par la création de solutions logicielles performantes et évolutives. Fort de mes expériences en ingénierie logicielle, je recherche un poste en CDI afin de mettre en pratique mes compétences et contribuer à des projets innovants, alliant excellence technique et impact concret.",
   info: [
     {
       fieldName: "Noms",
@@ -77,6 +77,11 @@ const experience = {
       duration: "2020 - 2022",
       description:
         "Enseignement des mathématiques au niveau secondaire. Développement de plans de cours efficaces pour aider les élèves à maîtriser les concepts mathématiques fondamentaux et avancés.",
+    },
+    {
+      company: "ORANGE DATA/SI",
+      position: "Développeur Web pour le Datamesh",
+      duration: "Février 2025 - Aout 2025",
     },
   ],
 };
