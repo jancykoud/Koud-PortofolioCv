@@ -57,7 +57,7 @@ const Photo = () => {
         {/* Image réduite et centrée dans le cercle */}
         <div className="w-[110px] h-[110px] xl:w-[180px] xl:h-[180px] relative z-10 overflow-hidden rounded-full flex justify-center items-center">
           <Image
-            src="/assets/kjb.jpg"
+            src="https://velvety-souffle-ba578f.netlify.app/assets/kjb.jpg"
             width={180}
             height={180}
             priority
