@@ -1,7 +1,8 @@
 const nextConfig = {
   output: "export",
+  transpilePackages: ["framer-motion"],
   images: {
-    unoptimized: true, // Désactive l'optimisation des images
+    unoptimized: true,
   },
 };
 
