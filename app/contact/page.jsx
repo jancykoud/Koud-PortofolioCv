@@ -98,7 +98,7 @@ const Contact = () => {
     const info = [
         { icon: <FaPhoneAlt />, title: "Téléphone", description: "(+33) 7 88 70 29 85" },
         { icon: <FaEnvelope />, title: "Email", description: "fridelinbanga@gmail.com" },
-        { icon: <FaMapMarkedAlt />, title: "Adresse", description: "21 Rue André Maginot, 91400 Orsay" },
+        { icon: <FaMapMarkedAlt />, title: "Localisation", description: "Clermont-Ferrand, France" },
         { icon: <FaGithub />, title: "GitHub", description: <a href="https://github.com/jancykoud" target="_blank" rel="noopener noreferrer" className="text-accent">github.com/jancykoud</a> },
         { icon: <FaGitlab />, title: "GitLab", description: <a href="https://gitlab.com/fridelinbanga" target="_blank" rel="noopener noreferrer" className="text-accent">gitlab.com/fridelinbanga</a> }
     ];

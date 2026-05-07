@@ -29,6 +29,10 @@ const about = {
       fieldValue: "(+33) 7 88 70 29 85",
     },
     {
+      fieldName: "Localisation",
+      fieldValue: "Clermont-Ferrand, France",
+    },
+    {
       fieldName: "Expérience",
       fieldValue: "2+ ans",
     },
