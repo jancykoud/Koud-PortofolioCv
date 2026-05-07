@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 import { BsArrowUpRight, BsGithub } from "react-icons/bs";
-import { FaYoutube, FaGitlab, FaUsers, FaChartLine, FaClock, FaUserTie, FaLock } from "react-icons/fa";
+import { FaYoutube, FaGitlab, FaUsers, FaChartLine, FaClock, FaUserTie, FaLock, FaKey } from "react-icons/fa";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import Link from "next/link";
 import Image from "next/image";
@@ -69,6 +69,30 @@ const projects = [
       accuracy: "GitLab CI/CD",
       uptime: "En production"
     }
+  },
+  {
+    num: "04",
+    category: "Plateforme SaaS de gestion scolaire",
+    title: "EduConnect",
+    description:
+      "Plateforme SaaS multi-établissements conçue pour le marché africain (devise XOF, école de démo à Abidjan). Couvre tout le cycle de vie d'un établissement : académique, pédagogie, finances, communication et documents officiels. 5 rôles utilisateurs, mode offline-first, push notifications FCM et génération PDF.",
+    stack: ["React 18", "TypeScript", "Vite", "TailwindCSS", "Node.js", "Express", "Prisma", "PostgreSQL", "Redis", "Turborepo", "Firebase FCM", "WebSockets", "JWT + 2FA TOTP"],
+    images: ["/assets/work/educonnect.png"],
+    live: "https://edu-connect-web.vercel.app",
+    repo: null,
+    inProgress: true,
+    date: "2025 — En cours",
+    role: "Développeuse fullstack — projet personnel solo",
+    credentials: [
+      { label: "Directeur", email: "directeur@horizon.ci", password: "Admin1234!" },
+      { label: "Professeur", email: "prof.math@horizon.ci", password: "Teacher1234!" },
+    ],
+    metrics: {
+      users: "5 rôles utilisateurs",
+      performance: "Offline-first PWA",
+      accuracy: "Push FCM + WebSockets",
+      uptime: "Démo disponible"
+    }
   }
 ];
 
@@ -93,8 +117,16 @@ const Work = () => {
             <div className="flex flex-col gap-6">
               <div className="text-8xl font-extrabold text-white">{project.num}</div>
               <h2 className="text-[42px] font-bold text-white capitalize">{project.category}</h2>
-              <h3 className="text-[28px] font-semibold text-accent">{project.title}</h3>
-              
+              <div className="flex items-center gap-3 flex-wrap">
+                <h3 className="text-[28px] font-semibold text-accent">{project.title}</h3>
+                {project.inProgress && (
+                  <span className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-500/10 text-yellow-400 rounded-full text-sm font-medium border border-yellow-500/30">
+                    <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
+                    En cours
+                  </span>
+                )}
+              </div>
+
               {/* Rôle spécifique */}
               <div className="flex items-center gap-2 bg-accent/10 px-4 py-2 rounded-lg w-fit">
                 <FaUserTie className="text-accent" />
@@ -201,9 +233,28 @@ const Work = () => {
                   </Link>
                 )}
               </div>
+
+              {/* Comptes de démo */}
+              {project.credentials && (
+                <div className="mt-2 p-4 bg-[#1a1a24] border border-accent/20 rounded-lg">
+                  <p className="text-xs text-accent font-semibold mb-3 flex items-center gap-2">
+                    <FaKey /> Comptes de démo
+                  </p>
+                  <div className="flex flex-col gap-2">
+                    {project.credentials.map((cred, i) => (
+                      <div key={i} className="text-xs font-mono">
+                        <span className="text-white/80 font-semibold">{cred.label} —</span>{" "}
+                        <span className="text-white/60">{cred.email}</span>
+                        <span className="text-white/40"> / </span>
+                        <span className="text-white/60">{cred.password}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
-          
+
           {/* Image Slider avec captures d'écran multiples */}
           <div className="w-full xl:w-[50%]">
             <div className="mb-4">
