@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/swiper-bundle.css";
 import { BsArrowUpRight, BsGithub } from "react-icons/bs";
-import { FaYoutube, FaGitlab, FaUsers, FaChartLine, FaClock, FaUserTie } from "react-icons/fa";
+import { FaYoutube, FaGitlab, FaUsers, FaChartLine, FaClock, FaUserTie, FaLock } from "react-icons/fa";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import Link from "next/link";
 import Image from "next/image";
@@ -14,72 +14,60 @@ import WorkSliderBtns from "@/components/WorkSliderBtns";
 const projects = [
   {
     num: "01",
-    category: "Full Stack AI RAG System",
-    title: "HSLU Exam Assistant RAG",
+    category: "Portail SensorThings — Données IoT",
+    title: "FROST-FORMS",
     description:
-      "Système de questions-réponses spécifique aux cours utilisant Python, FastAPI, Next.js et OpenAI. Intégration de Pinecone pour le stockage efficace des embeddings et interface moderne avec Tailwind CSS.",
-    stack: ["Python", "FastAPI", "Next.js", "OpenAI", "Firebase", "Pinecone", "Tailwind CSS"],
-    images: [
-      "/assets/work/hslu-exam.png",
-      "/assets/work/hslu-exam-2.png",
-      "/assets/work/hslu-exam-3.png"
-    ],
-    live: "https://hslu-exam-ai-assistant.vercel.app/",
-    repo: "https://github.com/rogerjeasy/hslu-rag-frontend",
-    date: "03/2025 - 04/2025",
-    role: "Lead Developer & AI Architect",
+      "Portail fullstack de déclaration et gestion de systèmes de mesure environnementaux pour le réseau de recherche TERRA FORMA (projet ANR 12M€, 30 laboratoires CNRS/INRAE/IRD/UCA). Wizard multi-étapes, catalogue de 53 instruments LoRaWAN, carte interactive et workflow de modération. Développement solo, en production.",
+    stack: ["React 18", "TypeScript", "TailwindCSS", "Zustand", "Node.js", "Express", "PostgreSQL", "Prisma", "Docker", "OGC SensorThings", "INSPIRE", "JWT"],
+    images: ["/assets/work/frost-forms.png"],
+    live: null,
+    repo: null,
+    confidential: true,
+    date: "10/2025 — Présent",
+    role: "Ingénieure SIG & Fullstack — développement solo",
     metrics: {
-      users: "100+ étudiants actifs",
-      performance: "< 2s temps de réponse",
-      accuracy: "92% précision des réponses",
-      uptime: "99.9% disponibilité"
+      users: "30 laboratoires CNRS/INRAE/IRD/UCA",
+      performance: "Conformité OGC/INSPIRE",
+      accuracy: "53 instruments LoRaWAN",
+      uptime: "En production"
     }
   },
   {
     num: "02",
-    category: "Full Stack Social Platform",
-    title: "Let Us Connect",
+    category: "Moteur de recherche sémantique IA",
+    title: "Wmbia",
     description:
-      "Plateforme sociale développée avec Go, Next.js et Firebase. API RESTful avec Go Fiber, intégration Cloudinary pour la gestion des fichiers et Pusher pour les notifications en temps réel. Interface moderne avec NextUI et ShadCN UI.",
-    stack: ["Go", "Next.js", "Firebase", "Tailwind CSS", "Go Fiber", "Cloudinary", "Pusher", "Zustand", "Zod"],
-    images: [
-      "/assets/work/letusconnect.png",
-      "/assets/work/letusconnect-2.png",
-      "/assets/work/letusconnect-3.png"
-    ],
-    live: "https://letusconnect.vercel.app/",
-    repo: "https://github.com/rogerjeasy/letusconnect",
-    date: "10/2024 - Présent",
-    role: "Co-fondateur & Full Stack Developer",
+      "Plateforme de recherche sémantique de citations religieuses basée sur l'IA et la recherche vectorielle. Indexation et requêtage via Qdrant, interface React moderne. Projet personnel solo, en production.",
+    stack: ["React", "Python", "Qdrant"],
+    images: ["/assets/work/wmbia.png"],
+    live: "https://wmbia.com",
+    repo: null,
+    date: "2025",
+    role: "Développeuse fullstack — projet personnel solo",
     metrics: {
-      users: "500+ utilisateurs inscrits",
-      engagement: "80% taux d'engagement",
-      performance: "< 100ms API response",
-      growth: "+50% croissance mensuelle"
+      users: "Recherche IA vectorielle",
+      performance: "Moteur sémantique Qdrant",
+      accuracy: "Projet solo",
+      uptime: "En production"
     }
   },
   {
     num: "03",
-    category: "E-commerce Android",
-    title: "CongoStore",
+    category: "Plateforme de mentorat éducatif",
+    title: "Orient'Ex",
     description:
-      "Application e-commerce Android complète avec architecture MVC modulaire. Intégration Firebase pour synchronisation en temps réel et authentification. Interface responsive avec Bootstrap et optimisation des performances avec RecyclerView et Glide.",
-    stack: ["Android", "Java", "Firebase", "Bootstrap", "RecyclerView", "Glide", "MVC"],
-    images: [
-      "/assets/work/congostore.png",
-      "/assets/work/congostore-2.png",
-      "/assets/work/congostore-3.png"
-    ],
-    live: "https://youtu.be/mH8q9B0G3kE",
-    repo: "https://github.com/jancykoud/CongoStore---E-commerce-Android-Application",
-    date: "01/2025",
-    isVideo: true,
-    role: "Mobile Developer & UI Designer",
+      "Plateforme de mise en relation entre mentors et étudiants pour l'orientation éducative. Architecture modulaire, pipeline CI/CD GitLab, déploiement Docker. Projet personnel solo, en production.",
+    stack: ["Nuxt.js", "Node.js", "Sequelize", "MySQL", "Docker", "GitLab CI/CD"],
+    images: ["/assets/work/orient-ex.png"],
+    live: "https://orient-ex.org",
+    repo: null,
+    date: "2025",
+    role: "Développeuse fullstack — projet personnel solo",
     metrics: {
-      downloads: "1000+ téléchargements",
-      rating: "4.5★ sur Google Play",
-      performance: "60 FPS animation fluide",
-      size: "< 15MB taille APK"
+      users: "Mentors & étudiants",
+      performance: "Architecture modulaire",
+      accuracy: "GitLab CI/CD",
+      uptime: "En production"
     }
   }
 ];
@@ -174,6 +162,12 @@ const Work = () => {
               
               {/* Buttons */}
               <div className="flex items-center gap-4">
+                {project.confidential && (
+                  <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-lg">
+                    <FaLock className="text-white/40" />
+                    <span className="text-sm text-white/40">Projet confidentiel</span>
+                  </div>
+                )}
                 {project.live && (
                   <Link href={project.live} target="_blank">
                     <TooltipProvider>
@@ -255,7 +249,13 @@ const Work = () => {
             >
               {projects.map((proj, index) => (
                 <SwiperSlide key={index} className="w-full">
-                  
+                  <div className="h-full flex items-center gap-3 px-2">
+                    <span className="text-xl font-bold text-accent/60">{proj.num}</span>
+                    <div>
+                      <p className="text-xs text-white/40 uppercase tracking-wider">{proj.category.split("—")[0].trim()}</p>
+                      <p className="text-sm font-semibold text-white/80">{proj.title}</p>
+                    </div>
+                  </div>
                 </SwiperSlide>
               ))}
               <WorkSliderBtns

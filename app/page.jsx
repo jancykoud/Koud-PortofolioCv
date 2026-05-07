@@ -54,7 +54,7 @@ export default function Home() {
           >
             <span className="inline-flex items-center px-4 py-2 bg-accent/10 text-accent rounded-full text-sm font-medium border border-accent/20">
               <span className="w-2 h-2 bg-accent rounded-full mr-2 animate-pulse"></span>
-              Disponible pour un CDI à partir d'août 2025
+              En poste — Ouverte aux opportunités freelance
             </span>
           </motion.div>
 
@@ -65,9 +65,9 @@ export default function Home() {
             variants={textVariants}
             className="flex flex-wrap gap-2 justify-center xl:justify-start mb-4"
           >
-            <span className="text-xl text-white/80 font-semibold">Développeur Full-stack</span>
+            <span className="text-xl text-white/80 font-semibold">Ingénieure Fullstack & SIG</span>
             <span className="text-xl text-accent">|</span>
-            <span className="text-xl text-white/80 font-semibold">Chef de Projet IT</span>
+            <span className="text-xl text-white/80 font-semibold">React · TypeScript · Node.js · PostgreSQL</span>
           </motion.div>
 
           <motion.span
@@ -95,8 +95,8 @@ export default function Home() {
             animate={{ opacity: 1, y: 0, transition: { delay: 0.5, duration: 0.8 } }}
             className="mt-3 text-lg text-white/80 leading-relaxed italic"
           >
-            Passionné par la <span className="text-accent font-semibold">création d'expériences numériques innovantes</span>, 
-            j'allie performance, design et efficacité pour développer des applications modernes et intuitives.
+            Ingénieure fullstack spécialisée dans les <span className="text-accent font-semibold">plateformes de données scientifiques et environnementales</span>.
+            Je conçois des systèmes interopérables conformes aux standards OGC et INSPIRE, de l'IoT terrain jusqu'au portail web. Actuellement en poste sur le projet ANR TERRA FORMA (CNRS/INRAE/IRD/UCA).
           </motion.p>
 
           {/* Points forts avec icônes et effets */}
@@ -107,13 +107,13 @@ export default function Home() {
             className="text-white/80 text-left space-y-3 max-w-lg mt-4"
           >
             <li className="text-lg flex items-center gap-3">
-              <FaRocket className="text-accent text-xl" /> Développement performant et optimisé.
+              <FaRocket className="text-accent text-xl" /> Systèmes interopérables OGC/INSPIRE.
             </li>
             <li className="text-lg flex items-center gap-3">
-              <FaLaptopCode className="text-accent text-xl" /> Expérience utilisateur fluide et ergonomique.
+              <FaLaptopCode className="text-accent text-xl" /> Architectures fullstack TypeScript · React · Node.js.
             </li>
             <li className="text-lg flex items-center gap-3">
-              <FiDownload className="text-accent text-xl" /> Applications scalables et sécurisées.
+              <FiDownload className="text-accent text-xl" /> Données IoT LoRaWAN · PostgreSQL · Docker.
             </li>
           </motion.ul>
 
@@ -178,25 +178,25 @@ export default function Home() {
             animate={{ opacity: 1, y: 0, transition: { delay: 0.8, duration: 0.6 } }}
             className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-4 max-w-[600px]"
           >
-            {/* Badge Développeur */}
+            {/* Badge Fullstack */}
             <div className="bg-[#27272c] p-4 rounded-lg border border-white/10">
               <div className="flex items-center gap-3 mb-2">
                 <FaLaptopCode className="text-2xl text-accent" />
-                <h3 className="font-bold">Développeur Full-stack</h3>
+                <h3 className="font-bold">Ingénieure Fullstack</h3>
               </div>
               <p className="text-sm text-white/60">
-                React, Angular, Node.js, Spring Boot, Cloud (AWS/GCP)
+                React, TypeScript, Node.js, PostgreSQL, Docker
               </p>
             </div>
-            
-            {/* Badge Chef de Projet */}
+
+            {/* Badge SIG & IoT */}
             <div className="bg-[#27272c] p-4 rounded-lg border border-white/10">
               <div className="flex items-center gap-3 mb-2">
                 <FaProjectDiagram className="text-2xl text-accent" />
-                <h3 className="font-bold">Chef de Projet IT</h3>
+                <h3 className="font-bold">Ingénieure SIG & IoT</h3>
               </div>
               <p className="text-sm text-white/60">
-                Agile/Scrum, Gouvernance IT, Transformation digitale
+                OGC SensorThings, INSPIRE, LoRaWAN, GeoJSON
               </p>
             </div>
           </motion.div>

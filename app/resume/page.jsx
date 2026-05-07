@@ -2,25 +2,23 @@
 
 import {
     FaHtml5,
-    FaCss3,
     FaJs,
     FaReact,
-    FaFigma,
     FaNodeJs,
-    FaAngular,
+    FaGitlab,
     FaDownload,
     FaGraduationCap,
     FaBriefcase,
     FaCalendarAlt,
 } from 'react-icons/fa';
 
-import { SiTailwindcss, SiNextdotjs, SiSpringboot, SiSymfony } from 'react-icons/si';
+import { SiTailwindcss, SiNextdotjs, SiTypescript, SiPostgresql, SiDocker, SiPython, SiPrisma, SiNuxtdotjs } from 'react-icons/si';
 
 // Données à propos de moi
 const about = {
   title: "À propos de moi",
   description:
-    "Diplômé d'un double Master en Informatique et Management (MTS), je combine expertise technique et vision stratégique. Passionné par la création de solutions logicielles performantes et évolutives, je recherche un poste en CDI pour mettre en pratique mes compétences en développement et gestion de projet.",
+    "Ingénieure fullstack et SIG avec un double Master en Informatique et Management (MTS). Actuellement en poste sur le projet ANR TERRA FORMA (CNRS/INRAE/IRD/UCA), je conçois des plateformes de données environnementales conformes aux standards OGC/INSPIRE, de l'IoT terrain jusqu'au portail web.",
   info: [
     {
       fieldName: "Noms",
@@ -48,7 +46,7 @@ const about = {
     },
     {
       fieldName: "Disponibilité",
-      fieldValue: "Août 2025",
+      fieldValue: "Ouverte aux opportunités freelance",
     },
     {
       fieldName: "Langues",
@@ -62,8 +60,14 @@ const experience = {
   icon: "/assets/resume/badge.svg",
   title: "Mon expérience professionnelle",
   description:
-    "Participation à la conception et au développement d'applications logicielles et web. Création d'interfaces utilisateur élégantes et d'architectures backend robustes.",
+    "Conception et développement de plateformes de données scientifiques et environnementales. De l'architecture backend à l'interface utilisateur, avec une expertise en standards OGC, IoT et conformité INSPIRE.",
   items: [
+    {
+      company: "ANR TERRA FORMA — CNRS/INRAE/IRD/UCA",
+      position: "Ingénieure SIG & Développement Fullstack",
+      duration: "Octobre 2025 — Présent",
+      description: "Développement solo du portail FROST-FORMS : wizard IoT multi-étapes, catalogue de 53 instruments LoRaWAN, carte interactive (Leaflet/OpenStreetMap) et workflow de modération admin. Conformité OGC SensorThings, INSPIRE, ISO 19115.",
+    },
     {
       company: "ORANGE DATA/IA",
       position: "Chef de projet / Développeur Web - Stage",
@@ -93,6 +97,13 @@ const experience = {
 
 // Timeline data
 const timeline = [
+  {
+    year: "2025 →",
+    title: "Projet ANR TERRA FORMA",
+    description: "Ingénieure SIG & Fullstack — CNRS/INRAE/IRD/UCA",
+    type: "work",
+    icon: <FaBriefcase />
+  },
   {
     year: "2025",
     title: "Stage Orange DATA/IA",
@@ -187,44 +198,52 @@ const skills = {
       "Maîtrise de diverses technologies pour le développement web et la conception d'applications performantes.",
     skillList: [
       {
-        icon: <FaHtml5 />,
-        name: "HTML 5",
-      },
-      {
-        icon: <FaCss3 />,
-        name: "CSS 3",
-      },
-      {
-        icon: <FaJs />,
-        name: "JavaScript",
-      },
-      {
         icon: <FaReact />,
         name: "React.js",
       },
       {
-        icon: <SiTailwindcss />,
-        name: "Tailwind CSS",
+        icon: <SiTypescript />,
+        name: "TypeScript",
+      },
+      {
+        icon: <SiNextdotjs />,
+        name: "Next.js",
       },
       {
         icon: <FaNodeJs />,
         name: "Node.js",
       },
       {
-        icon: <FaFigma />,
-        name: "Figma",
+        icon: <SiPython />,
+        name: "Python",
       },
       {
-        icon: <FaAngular />,
-        name: "Angular",
+        icon: <SiPostgresql />,
+        name: "PostgreSQL",
       },
       {
-        icon: <SiSpringboot />,
-        name: "Spring Boot",
+        icon: <SiPrisma />,
+        name: "Prisma",
       },
       {
-        icon: <SiSymfony />,
-        name: "Symfony",
+        icon: <SiDocker />,
+        name: "Docker",
+      },
+      {
+        icon: <SiNuxtdotjs />,
+        name: "Nuxt.js",
+      },
+      {
+        icon: <SiTailwindcss />,
+        name: "Tailwind CSS",
+      },
+      {
+        icon: <FaHtml5 />,
+        name: "HTML 5",
+      },
+      {
+        icon: <FaGitlab />,
+        name: "GitLab CI/CD",
       },
     ],
   };
