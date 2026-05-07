@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Button } from "./ui/button";
 import Nav from "./Nav";
 import MobileNav from "./MobileNav";
 
@@ -14,11 +13,23 @@ const Header = () => {
           </h1>
         </Link>
         
-        {/* desktop nav & hire me button */}
+        {/* desktop nav & contact button */}
         <div className="hidden xl:flex items-center gap-8">
           <Nav />
-          <Link href="/contact">
-            <Button>Embauchez-moi</Button>
+          <Link
+            href="/contact"
+            style={{
+              border: "0.5px solid rgba(110,231,183,0.4)",
+              borderRadius: "100px",
+              color: "#6ee7b7",
+              background: "rgba(110,231,183,0.06)",
+              padding: "8px 24px",
+              fontSize: "14px",
+              fontWeight: 500,
+              transition: "background 0.2s",
+            }}
+          >
+            Contactez-moi
           </Link>
         </div>
         

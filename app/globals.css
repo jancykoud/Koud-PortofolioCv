@@ -39,6 +39,6 @@
 }
 
 .text-outline-hover{
-  -webkit-text-stroke: 1px #00ff99; 
-  color: #00ff99; /* Added color fallback */
+  -webkit-text-stroke: 1px #6ee7b7;
+  color: #6ee7b7;
 }

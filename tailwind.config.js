@@ -21,10 +21,10 @@ module.exports = {
 	  },
 	  extend: {
 		colors: {
-		  primary: "#1c1c22",  // Utilisation des variables CSS
+		  primary: "#0a0f1e",
 		  accent: {
-			DEFAULT: "#00ff99",
-			hover: "#00e187",
+			DEFAULT: "#6ee7b7",
+			hover: "#4dd4a0",
 		  },
 		},
 		borderRadius: {

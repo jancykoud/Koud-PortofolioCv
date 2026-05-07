@@ -2,45 +2,44 @@
 import CountUp from "react-countup";
 
 const stats = [
-  {
-    num: 2,
-    text: "Années d'expérience",
-  },
-  {
-    num: 5,
-    text: "Projets réalisés",
-    suffix: "+",
-  },
-  {
-    num: 15,
-    text: "Technologies maîtrisées",
-    suffix: "+",
-  },
-  {
-    num: 3,
-    text: "Standards internationaux",
-  },
+  { num: 2, text: "Années d'expérience" },
+  { num: 5, text: "Projets réalisés", suffix: "+" },
+  { num: 15, text: "Technologies maîtrisées", suffix: "+" },
+  { num: 3, text: "Standards internationaux" },
 ];
 
 const Stats = () => {
   return (
-    <section className="py-8 bg-primary"> {/* Couleur de fond harmonisée avec la page */}
+    <section
+      style={{
+        borderTop: "0.5px solid rgba(255,255,255,0.08)",
+        borderBottom: "0.5px solid rgba(255,255,255,0.08)",
+      }}
+      className="py-6"
+    >
       <div className="container mx-auto">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+        <div className="grid grid-cols-2 xl:grid-cols-4">
           {stats.map((item, index) => (
             <div
               key={index}
-              className="p-4 bg-gray-800 rounded-lg shadow-lg transform transition-all hover:scale-105 hover:shadow-2xl"
+              className="flex flex-col items-center py-4 xl:py-2"
+              style={
+                index < stats.length - 1
+                  ? { borderRight: "0.5px solid rgba(255,255,255,0.08)" }
+                  : {}
+              }
             >
               <CountUp
                 end={item.num}
                 suffix={item.suffix || ""}
-                duration={5}
-                delay={1}
-                className="text-3xl xl:text-4xl font-bold text-accent"
+                duration={4}
+                delay={0.5}
+                className="font-medium text-white"
+                style={{ fontSize: "28px" }}
               />
               <p
-                className={`mt-2 text-sm font-medium leading-snug text-white/80`}
+                className="mt-1 text-center"
+                style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)" }}
               >
                 {item.text}
               </p>
