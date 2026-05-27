@@ -1,165 +1,427 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { FaPhoneAlt, FaEnvelope, FaMapMarkedAlt, FaGithub, FaGitlab } from "react-icons/fa";
-import emailjs from "@emailjs/browser";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaEnvelope, FaMapMarkerAlt, FaGithub, FaGitlab, FaPhone } from "react-icons/fa";
+import Link from "next/link";
 
-const Contact = () => {
-    const [formData, setFormData] = useState({
-        firstname: "",
-        lastname: "",
-        email: "",
-        phone: "",
-        service: "",
-        message: "",
-        honeypot: "" // ✅ Champ caché pour éviter les bots
-    });
+// Sujets disponibles
+const SUBJECTS = [
+  "Mission freelance",
+  "Opportunité CDI",
+  "Collaboration projet",
+  "Question technique",
+  "Autre",
+];
 
-    const [status, setStatus] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [errors, setErrors] = useState({});
+const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-    // Validation email
-    const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+const ContactInfo = () => (
+  <ul className="flex flex-col gap-6">
+    {[
+      {
+        icon: <FaPhone />,
+        label: "Téléphone",
+        value: "(+33) 7 88 70 29 85",
+        href: "tel:+33788702985",
+      },
+      {
+        icon: <FaEnvelope />,
+        label: "Email",
+        value: "fridelinbanga@gmail.com",
+        href: "mailto:fridelinbanga@gmail.com",
+      },
+      {
+        icon: <FaMapMarkerAlt />,
+        label: "Localisation",
+        value: "Clermont-Ferrand, France",
+      },
+      {
+        icon: <FaGithub />,
+        label: "GitHub",
+        value: "github.com/jancykoud",
+        href: "https://github.com/jancykoud",
+        external: true,
+      },
+      {
+        icon: <FaGitlab />,
+        label: "GitLab",
+        value: "gitlab.com/fridelinbanga",
+        href: "https://gitlab.com/fridelinbanga",
+        external: true,
+      },
+    ].map((item, i) => (
+      <li key={i} className="flex items-start gap-4">
+        {/* Icône */}
+        <div
+          className="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 text-sm"
+          style={{
+            background: "#f3f0ff",
+            color: "#8b5cf6",
+            border: "0.5px solid #ddd6fe",
+          }}
+        >
+          {item.icon}
+        </div>
+        <div>
+          <p className="font-inter text-[10px] uppercase tracking-wider text-muted mb-0.5">
+            {item.label}
+          </p>
+          {item.href ? (
+            <Link
+              href={item.href}
+              target={item.external ? "_blank" : undefined}
+              className="font-inter text-sm text-primary-dark hover:text-accent transition-colors"
+              rel={item.external ? "noopener noreferrer" : undefined}
+            >
+              {item.value}
+            </Link>
+          ) : (
+            <p className="font-inter text-sm text-primary-dark">{item.value}</p>
+          )}
+        </div>
+      </li>
+    ))}
+  </ul>
+);
 
-    // Gestion des changements des champs
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({ ...prev, [name]: value }));
+export default function Contact() {
+  const [form, setForm] = useState({
+    nom: "",
+    email: "",
+    sujet: "",
+    message: "",
+    honeypot: "",
+  });
+  const [errors, setErrors] = useState({});
+  const [status, setStatus] = useState("idle"); // idle | loading | success | error
+  const [serverError, setServerError] = useState("");
 
-        // Vérification en temps réel
-        if (name === "email" && value && !validateEmail(value)) {
-            setErrors((prev) => ({ ...prev, email: "Adresse e-mail invalide" }));
-        } else {
-            setErrors((prev) => ({ ...prev, email: "" }));
-        }
-    };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
+    // Efface l'erreur du champ modifié
+    if (errors[name]) setErrors((prev) => ({ ...prev, [name]: "" }));
+  };
 
-    // Envoi de l'e-mail
-    const sendEmail = async (e) => {
-        e.preventDefault();
-        setLoading(true);
-        setStatus("");
+  const validate = () => {
+    const newErrors = {};
+    if (!form.nom.trim() || form.nom.trim().length < 2)
+      newErrors.nom = "Nom requis (min 2 caractères)";
+    if (!validateEmail(form.email))
+      newErrors.email = "Adresse e-mail invalide";
+    if (!form.message.trim() || form.message.trim().length < 10)
+      newErrors.message = "Message trop court (min 10 caractères)";
+    return newErrors;
+  };
 
-        // Vérifications
-        if (!formData.firstname || !formData.email || !formData.message) {
-            setStatus("❌ Veuillez remplir tous les champs obligatoires !");
-            setLoading(false);
-            return;
-        }
-        if (!validateEmail(formData.email)) {
-            setStatus("❌ L'adresse e-mail n'est pas valide !");
-            setLoading(false);
-            return;
-        }
-        if (formData.message.length < 10) {
-            setStatus("❌ Le message doit contenir au moins 10 caractères !");
-            setLoading(false);
-            return;
-        }
-        if (formData.honeypot) {
-            console.warn("Spam détecté !");
-            setLoading(false);
-            return;
-        }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-        try {
-            await emailjs.send(
-                "service_q5mtxsg", // Remplace avec ton SERVICE ID
-                "template_w6wfki8", // Remplace avec ton TEMPLATE ID
-                {
-                    to_email: formData.email,
-                    firstname: formData.firstname,
-                    lastname: formData.lastname,
-                    email: formData.email,
-                    phone: formData.phone,
-                    service: formData.service,
-                    message: formData.message
-                },
-                "ABpXglQIHl5EHuuLc" // Remplace avec ta PUBLIC KEY
-            );
+    // Anti-bot
+    if (form.honeypot) return;
 
-            setStatus("✅ Message envoyé avec succès !");
-            setFormData({ firstname: "", lastname: "", email: "", phone: "", service: "", message: "", honeypot: "" });
-        } catch (error) {
-            console.error("Erreur lors de l'envoi :", error);
-            setStatus("❌ Une erreur est survenue, veuillez réessayer.");
-        }
+    const newErrors = validate();
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
 
-        setLoading(false);
-    };
+    setStatus("loading");
+    setServerError("");
 
-    // Informations de contact
-    const info = [
-        { icon: <FaPhoneAlt />, title: "Téléphone", description: "(+33) 7 88 70 29 85" },
-        { icon: <FaEnvelope />, title: "Email", description: "fridelinbanga@gmail.com" },
-        { icon: <FaMapMarkedAlt />, title: "Localisation", description: "Clermont-Ferrand, France" },
-        { icon: <FaGithub />, title: "GitHub", description: <a href="https://github.com/jancykoud" target="_blank" rel="noopener noreferrer" className="text-accent">github.com/jancykoud</a> },
-        { icon: <FaGitlab />, title: "GitLab", description: <a href="https://gitlab.com/fridelinbanga" target="_blank" rel="noopener noreferrer" className="text-accent">gitlab.com/fridelinbanga</a> }
-    ];
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          nom: form.nom,
+          email: form.email,
+          sujet: form.sujet,
+          message: form.message,
+        }),
+      });
 
-    return (
-        <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: 0.3, duration: 0.6, ease: "easeOut" } }} className="py-6">
-            <div className="container mx-auto">
-                <div className="flex flex-col xl:flex-row gap-[30px]">
-                    {/* Formulaire de contact */}
-                    <div className="xl:w-[54%] order-2 xl:order-none">
-                        <form onSubmit={sendEmail} className="flex flex-col gap-6 p-10 bg-[#27272c] rounded-xl shadow-lg">
-                            <h3 className="text-4xl text-accent">Travaillons ensemble</h3>
-                            <p className="text-white/60">Contactez-moi pour discuter de votre projet.</p>
+      const data = await res.json();
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <Input type="text" name="firstname" placeholder="Prénom" value={formData.firstname} onChange={handleChange} required />
-                                <Input type="text" name="lastname" placeholder="Nom de famille" value={formData.lastname} onChange={handleChange} />
-                                <Input type="email" name="email" placeholder="Adresse e-mail" value={formData.email} onChange={handleChange} required className={`${errors.email ? "border-red-500" : ""}`} />
-                                <Input type="tel" name="phone" placeholder="Numéro de téléphone" value={formData.phone} onChange={handleChange} />
-                            </div>
+      if (!res.ok) {
+        setServerError(data.error || "Une erreur est survenue.");
+        setStatus("error");
+        return;
+      }
 
-                            <Select name="service" onValueChange={(value) => setFormData((prev) => ({ ...prev, service: value }))}>
-                                <SelectTrigger className="w-full">
-                                    <SelectValue placeholder="Sélectionner un service" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectGroup>
-                                        <SelectLabel>Services</SelectLabel>
-                                        <SelectItem value="web-dev">Développement Web</SelectItem>
-                                        <SelectItem value="ui-ux">Conception UI/UX</SelectItem>
-                                        <SelectItem value="logo-design">Création de Logo</SelectItem>
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
+      setStatus("success");
+      setForm({ nom: "", email: "", sujet: "", message: "", honeypot: "" });
+    } catch {
+      setServerError("Impossible de joindre le serveur. Réessayez.");
+      setStatus("error");
+    }
+  };
 
-                            <Textarea name="message" className="h-[200px]" placeholder="Tapez votre message ici." value={formData.message} onChange={handleChange} required />
-                            
-                            {/* Champ caché honeypot pour éviter les bots */}
-                            <input type="text" name="honeypot" style={{ display: "none" }} onChange={handleChange} />
+  return (
+    <motion.section
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="py-12 xl:py-20"
+    >
+      <div className="container mx-auto">
+        {/* En-tête */}
+        <div className="mb-12">
+          <p className="font-inter text-[10px] uppercase tracking-[0.2em] text-muted mb-3">
+            Parlons-en
+          </p>
+          <h1 className="font-syne font-black text-[38px] xl:text-[52px] leading-[1.05] text-primary-dark"
+              style={{ letterSpacing: "-0.025em" }}>
+            Travaillons
+            <br />
+            <span style={{ color: "#8b5cf6" }}>ensemble.</span>
+          </h1>
+        </div>
 
-                            <Button type="submit" size="md" className={`w-auto px-4 py-2 rounded-md transition-all duration-300 ${loading ? "bg-gray-500 cursor-not-allowed" : "bg-accent hover:bg-accent-hover text-primary"}`} disabled={loading}>
-                                {loading ? "Envoi en cours..." : "Envoyer le message"}
-                            </Button>
+        <div className="flex flex-col xl:flex-row gap-14">
 
-                            {status && <p className={`mt-2 text-center ${status.startsWith("✅") ? "text-green-400" : "text-red-400"}`}>{status}</p>}
-                        </form>
+          {/* ─ Formulaire ─ */}
+          <div className="xl:flex-[3]">
+            <AnimatePresence mode="wait">
+              {status === "success" ? (
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0, scale: 0.96 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.45, ease: "easeOut" }}
+                  className="flex flex-col items-center justify-center text-center py-20 gap-5"
+                  style={{
+                    border: "0.5px solid #e5e0d8",
+                    borderRadius: 16,
+                    background: "#fafaf8",
+                    minHeight: 360,
+                  }}
+                >
+                  {/* Checkmark animé */}
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ type: "spring", stiffness: 200, delay: 0.1 }}
+                    style={{
+                      width: 56,
+                      height: 56,
+                      borderRadius: "50%",
+                      background: "#f3f0ff",
+                      border: "0.5px solid #ddd6fe",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: 22,
+                    }}
+                  >
+                    ✓
+                  </motion.div>
+                  <h3 className="font-syne font-bold text-2xl text-primary-dark">
+                    Message envoyé !
+                  </h3>
+                  <p className="font-inter text-sm text-muted max-w-xs">
+                    Merci pour votre message. Je vous répondrai dans les plus brefs délais.
+                  </p>
+                  <button
+                    onClick={() => setStatus("idle")}
+                    className="font-inter text-sm text-accent hover:text-accent-hover transition-colors mt-2"
+                  >
+                    Envoyer un autre message →
+                  </button>
+                </motion.div>
+              ) : (
+                <motion.form
+                  key="form"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  onSubmit={handleSubmit}
+                  className="flex flex-col gap-5"
+                  style={{
+                    background: "#ffffff",
+                    border: "0.5px solid #e5e0d8",
+                    borderRadius: 16,
+                    padding: "32px",
+                  }}
+                >
+                  <h2 className="font-syne font-bold text-xl text-primary-dark mb-1">
+                    Envoyer un message
+                  </h2>
+
+                  {/* Champ honeypot (invisible) */}
+                  <input
+                    type="text"
+                    name="honeypot"
+                    value={form.honeypot}
+                    onChange={handleChange}
+                    style={{ display: "none" }}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
+
+                  {/* Ligne : Nom + Email */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="font-inter text-[11px] text-muted uppercase tracking-wider block mb-1.5">
+                        Nom *
+                      </label>
+                      <input
+                        type="text"
+                        name="nom"
+                        value={form.nom}
+                        onChange={handleChange}
+                        placeholder="Votre nom"
+                        className="w-full font-inter text-sm rounded-lg px-4 py-3 outline-none transition-colors"
+                        style={{
+                          background: "#f7f5f1",
+                          border: errors.nom ? "0.5px solid #ef4444" : "0.5px solid #e5e0d8",
+                          color: "#0a0a0a",
+                        }}
+                        onFocus={(e) => (e.target.style.borderColor = "#8b5cf6")}
+                        onBlur={(e) =>
+                          (e.target.style.borderColor = errors.nom ? "#ef4444" : "#e5e0d8")
+                        }
+                      />
+                      {errors.nom && (
+                        <p className="text-[11px] text-red-500 mt-1 font-inter">{errors.nom}</p>
+                      )}
                     </div>
-
-                    {/* Informations de contact */}
-                    <div className="flex-1 flex items-center xl:justify-end order-1 xl:order-none">
-                        <ul className="flex flex-col gap-10">{info.map((item, index) => (
-                            <li key={index} className="flex items-center gap-6">
-                                <div className="w-[52px] h-[52px] bg-[#27272c] text-accent rounded-md flex items-center justify-center text-[28px]">{item.icon}</div>
-                                <div><p className="text-white/60">{item.title}</p><h3 className="text-xl">{item.description}</h3></div>
-                            </li>
-                        ))}</ul>
+                    <div>
+                      <label className="font-inter text-[11px] text-muted uppercase tracking-wider block mb-1.5">
+                        Email *
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={form.email}
+                        onChange={handleChange}
+                        placeholder="votre@email.com"
+                        className="w-full font-inter text-sm rounded-lg px-4 py-3 outline-none transition-colors"
+                        style={{
+                          background: "#f7f5f1",
+                          border: errors.email ? "0.5px solid #ef4444" : "0.5px solid #e5e0d8",
+                          color: "#0a0a0a",
+                        }}
+                        onFocus={(e) => (e.target.style.borderColor = "#8b5cf6")}
+                        onBlur={(e) =>
+                          (e.target.style.borderColor = errors.email ? "#ef4444" : "#e5e0d8")
+                        }
+                      />
+                      {errors.email && (
+                        <p className="text-[11px] text-red-500 mt-1 font-inter">{errors.email}</p>
+                      )}
                     </div>
-                </div>
+                  </div>
+
+                  {/* Sujet */}
+                  <div>
+                    <label className="font-inter text-[11px] text-muted uppercase tracking-wider block mb-1.5">
+                      Sujet
+                    </label>
+                    <select
+                      name="sujet"
+                      value={form.sujet}
+                      onChange={handleChange}
+                      className="w-full font-inter text-sm rounded-lg px-4 py-3 outline-none appearance-none cursor-pointer"
+                      style={{
+                        background: "#f7f5f1",
+                        border: "0.5px solid #e5e0d8",
+                        color: form.sujet ? "#0a0a0a" : "#aaaaaa",
+                      }}
+                    >
+                      <option value="">Sélectionner un sujet</option>
+                      {SUBJECTS.map((s) => (
+                        <option key={s} value={s}>
+                          {s}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Message */}
+                  <div>
+                    <label className="font-inter text-[11px] text-muted uppercase tracking-wider block mb-1.5">
+                      Message *
+                    </label>
+                    <textarea
+                      name="message"
+                      value={form.message}
+                      onChange={handleChange}
+                      placeholder="Décrivez votre projet, vos besoins..."
+                      rows={6}
+                      className="w-full font-inter text-sm rounded-lg px-4 py-3 outline-none resize-none transition-colors"
+                      style={{
+                        background: "#f7f5f1",
+                        border: errors.message ? "0.5px solid #ef4444" : "0.5px solid #e5e0d8",
+                        color: "#0a0a0a",
+                      }}
+                      onFocus={(e) => (e.target.style.borderColor = "#8b5cf6")}
+                      onBlur={(e) =>
+                        (e.target.style.borderColor = errors.message ? "#ef4444" : "#e5e0d8")
+                      }
+                    />
+                    <div className="flex items-center justify-between mt-1">
+                      {errors.message ? (
+                        <p className="text-[11px] text-red-500 font-inter">{errors.message}</p>
+                      ) : (
+                        <span />
+                      )}
+                      <p className="text-[10px] text-muted font-inter ml-auto">
+                        {form.message.length}/3000
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Erreur serveur */}
+                  {status === "error" && serverError && (
+                    <p
+                      className="font-inter text-sm text-center py-3 rounded-lg"
+                      style={{ background: "#fef2f2", color: "#ef4444", border: "0.5px solid #fecaca" }}
+                    >
+                      {serverError}
+                    </p>
+                  )}
+
+                  {/* Submit */}
+                  <button
+                    type="submit"
+                    disabled={status === "loading"}
+                    className="font-inter font-medium text-sm transition-opacity"
+                    style={{
+                      background: status === "loading" ? "#aaaaaa" : "#0a0a0a",
+                      color: "#f7f5f1",
+                      borderRadius: 100,
+                      padding: "12px 28px",
+                      cursor: status === "loading" ? "not-allowed" : "pointer",
+                      alignSelf: "flex-start",
+                    }}
+                  >
+                    {status === "loading" ? "Envoi en cours…" : "Envoyer le message →"}
+                  </button>
+                </motion.form>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* ─ Infos contact ─ */}
+          <div className="xl:flex-[2]">
+            <div
+              className="p-8 rounded-2xl"
+              style={{
+                background: "#f7f5f1",
+                border: "0.5px solid #e5e0d8",
+              }}
+            >
+              <h2 className="font-syne font-bold text-lg text-primary-dark mb-6">
+                Coordonnées
+              </h2>
+              <ContactInfo />
             </div>
-        </motion.section>
-    );
-};
-
-export default Contact;
+          </div>
+        </div>
+      </div>
+    </motion.section>
+  );
+}

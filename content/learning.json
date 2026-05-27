@@ -1,0 +1,119 @@
+{
+  "courses": [
+    {
+      "title": "Python Essentials 1",
+      "platform": "Cisco NetAcad",
+      "category": "Programmation",
+      "progress": 40,
+      "endDate": "2026-08-01",
+      "status": "in-progress",
+      "url": "https://netacad.com",
+      "color": "#049fd9"
+    },
+    {
+      "title": "Introduction à l'IoT et à la transformation digitale",
+      "platform": "Cisco NetAcad",
+      "category": "IoT",
+      "progress": 30,
+      "endDate": "2026-08-15",
+      "status": "in-progress",
+      "url": "https://netacad.com",
+      "color": "#049fd9"
+    },
+    {
+      "title": "Introduction à la cybersécurité",
+      "platform": "Cisco NetAcad",
+      "category": "Sécurité",
+      "progress": 25,
+      "endDate": "2026-09-01",
+      "status": "in-progress",
+      "url": "https://netacad.com",
+      "color": "#049fd9"
+    },
+    {
+      "title": "Introduction to Data Science",
+      "platform": "Cisco NetAcad",
+      "category": "Data",
+      "progress": 20,
+      "endDate": "2026-09-15",
+      "status": "in-progress",
+      "url": "https://netacad.com",
+      "color": "#049fd9"
+    },
+    {
+      "title": "Notions de base sur les réseaux",
+      "platform": "Cisco NetAcad",
+      "category": "Réseau",
+      "progress": 35,
+      "endDate": "2026-08-30",
+      "status": "in-progress",
+      "url": "https://netacad.com",
+      "color": "#049fd9"
+    },
+    {
+      "title": "Discovering Entrepreneurship",
+      "platform": "Cisco NetAcad",
+      "category": "Business",
+      "progress": 50,
+      "endDate": "2026-07-15",
+      "status": "in-progress",
+      "url": "https://netacad.com",
+      "color": "#049fd9"
+    },
+    {
+      "title": "English for IT 1",
+      "platform": "Cisco NetAcad",
+      "category": "Communication",
+      "progress": 60,
+      "endDate": "2026-07-01",
+      "status": "in-progress",
+      "url": "https://netacad.com",
+      "color": "#049fd9"
+    },
+    {
+      "title": "Les bases du matériel informatique",
+      "platform": "Cisco NetAcad",
+      "category": "Hardware",
+      "progress": 45,
+      "endDate": "2026-08-01",
+      "status": "in-progress",
+      "url": "https://netacad.com",
+      "color": "#049fd9"
+    },
+    {
+      "title": "Creating Compelling Reports",
+      "platform": "Cisco NetAcad",
+      "category": "Communication",
+      "progress": 55,
+      "endDate": "2026-07-20",
+      "status": "in-progress",
+      "url": "https://netacad.com",
+      "color": "#049fd9"
+    },
+    {
+      "title": "Create Digital Content, Communicate and Collaborate",
+      "platform": "Cisco NetAcad",
+      "category": "Outils digitaux",
+      "progress": 30,
+      "endDate": "2026-09-01",
+      "status": "in-progress",
+      "url": "https://netacad.com",
+      "color": "#049fd9"
+    }
+  ],
+  "certifications": [],
+  "roadmap": [
+    {
+      "title": "AWS Cloud Practitioner",
+      "plannedDate": "2026-12",
+      "status": "planned",
+      "category": "Cloud"
+    },
+    {
+      "title": "Cisco CyberOps Associate",
+      "plannedDate": "2027-01",
+      "status": "planned",
+      "category": "Sécurité"
+    }
+  ]
+}

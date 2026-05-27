@@ -1,32 +1,71 @@
-import { JetBrains_Mono } from "next/font/google";
+import { Syne, Inter } from "next/font/google";
 import "./globals.css";
 import PageTransition from "@/components/PageTransition";
-
-
-//components
 import Header from "@/components/Header";
 import StairTransition from "@/components/StairTransition";
+import { ModeProvider } from "@/components/ModeContext";
+import KonamiEasterEgg from "@/components/KonamiEasterEgg";
 
-// Correction de la variable avec un j majuscule au début
-const jetBrains_Mono = JetBrains_Mono({
-  variable: "--font-jetbrainsMono",
+// Syne — titres XXL éditoriaux
+const syne = Syne({
+  variable: "--font-syne",
   subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800"],
+  weight: ["400", "700", "800"],
+  display: "swap",
+});
+
+// Inter — corps de texte
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
 });
 
 export const metadata = {
-  title: "Jancy KOUD BANGA — Ingénieure SIG & Développement Fullstack",
-  description: "Portfolio de Jancy KOUD BANGA, ingénieure en systèmes d'information géographique et développement fullstack, spécialisée en plateformes de données environnementales, IoT et standards OGC/INSPIRE.",
+  title: "Jancy KOUD BANGA — Ingénieure Fullstack & SIG",
+  description:
+    "Ingénieure fullstack spécialisée dans les plateformes de données environnementales et scientifiques. React, TypeScript, Node.js, OGC/INSPIRE, IoT.",
+  keywords: [
+    "ingénieure fullstack",
+    "SIG",
+    "OGC",
+    "INSPIRE",
+    "IoT",
+    "React",
+    "TypeScript",
+    "Node.js",
+    "CNRS",
+    "TERRA FORMA",
+  ],
+  authors: [{ name: "Jancy KOUD BANGA" }],
+  openGraph: {
+    title: "Jancy KOUD BANGA — Ingénieure Fullstack & SIG",
+    description:
+      "Ingénieure fullstack spécialisée dans les plateformes de données environnementales et scientifiques. React, TypeScript, Node.js, OGC/INSPIRE, IoT.",
+    type: "website",
+    locale: "fr_FR",
+    url: "https://jancy.dev",
+    siteName: "Jancy KOUD BANGA — Portfolio",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Jancy KOUD BANGA — Ingénieure Fullstack & SIG",
+    description:
+      "Ingénieure fullstack spécialisée dans les plateformes de données environnementales et scientifiques.",
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fr">
-      {/* Utilise la variable déclarée jetBrains_Mono ici */}
-      <body className={jetBrains_Mono.variable}>
-        <Header />
-        <StairTransition />
-        <PageTransition>{children}</PageTransition>
+    <html lang="fr" className={`${syne.variable} ${inter.variable}`}>
+      <body className="bg-primary text-primary-dark antialiased">
+        <ModeProvider>
+          <Header />
+          <StairTransition />
+          <PageTransition>{children}</PageTransition>
+          <KonamiEasterEgg />
+        </ModeProvider>
       </body>
     </html>
   );

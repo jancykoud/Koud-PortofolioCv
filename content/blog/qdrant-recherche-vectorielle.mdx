@@ -1,0 +1,130 @@
+---
+title: "Recherche vectorielle avec Qdrant — comment j'ai construit Wmbia"
+date: "2026-05-20"
+category: "IA · Vectoriel"
+excerpt: "Wmbia est un moteur de recherche sémantique de citations religieuses. Pas le projet le plus évident pour une ingénieure spécialisée en données environnementales. Voilà pourquoi je l'ai construit, et ce que ça m'a appris sur la recherche vectorielle."
+tags: ["Qdrant", "OpenAI", "Embeddings", "React", "Python", "FastAPI"]
+---
+
+Wmbia est né d'une conversation avec un ami qui se plaignait de ne pas retrouver une citation biblique dont il ne se souvenait que du sens général, pas des mots exacts. "Je cherche quelque chose sur le pardon, mais pas le verset classique, quelque chose de moins connu."
+
+La recherche par mots-clés ne peut pas répondre à ça. La recherche sémantique, si.
+
+## Pourquoi Qdrant plutôt que pgvector
+
+Ma première idée était d'utiliser **pgvector**, l'extension PostgreSQL pour la recherche vectorielle. J'utilise déjà PostgreSQL sur tous mes projets, ça semblait logique.
+
+Mais après avoir benchmarké les deux sur un corpus de ~31 000 versets (Bible entière + plusieurs traductions), Qdrant était clairement plus adapté :
+
+| Critère | pgvector | Qdrant |
+|---------|----------|--------|
+| Latence p95 (10k vecteurs) | ~45ms | ~8ms |
+| Filtrage par métadonnées | SQL classique | Natif, indexé |
+| Configuration | Extensions PG | Service dédié |
+| Payload stocké | Non | Oui (JSON avec le texte) |
+
+Le point décisif : avec Qdrant, je peux stocker le texte du verset **directement dans le payload du vecteur**, sans jointure. La réponse à une recherche contient déjà tout ce dont j'ai besoin pour l'afficher.
+
+## L'architecture de l'indexation
+
+```python
+# Génération des embeddings (Python + OpenAI)
+from openai import OpenAI
+from qdrant_client import QdrantClient
+from qdrant_client.models import PointStruct
+
+client = OpenAI()
+qdrant = QdrantClient(host="localhost", port=6333)
+
+def embed_and_index(verses: list[dict]):
+    texts = [v["text"] for v in verses]
+    
+    # Batch embedding (max 2048 textes par appel)
+    response = client.embeddings.create(
+        input=texts,
+        model="text-embedding-3-small"  # 1536 dimensions
+    )
+    
+    points = [
+        PointStruct(
+            id=verse["id"],
+            vector=emb.embedding,
+            payload={
+                "text": verse["text"],
+                "book": verse["book"],
+                "chapter": verse["chapter"],
+                "verse": verse["verse"],
+                "translation": verse["translation"],
+            }
+        )
+        for verse, emb in zip(verses, response.data)
+    ]
+    
+    qdrant.upsert(
+        collection_name="bible_verses",
+        points=points
+    )
+```
+
+Le choix de `text-embedding-3-small` plutôt que `text-embedding-ada-002` : meilleure performance pour les textes courts, coût divisé par 5, qualité comparable sur ce cas d'usage.
+
+## La recherche côté API
+
+L'API FastAPI expose un endpoint `/search` qui :
+1. Génère l'embedding de la requête utilisateur
+2. Interroge Qdrant avec une recherche cosinus
+3. Filtre optionnellement par livre ou traduction
+4. Retourne les 10 résultats les plus proches avec leur score
+
+```python
+@app.get("/search")
+async def search(q: str, translation: str = None, limit: int = 10):
+    query_vector = embed_query(q)
+    
+    filter_condition = None
+    if translation:
+        filter_condition = Filter(
+            must=[FieldCondition(
+                key="translation",
+                match=MatchValue(value=translation)
+            )]
+        )
+    
+    results = qdrant.search(
+        collection_name="bible_verses",
+        query_vector=query_vector,
+        query_filter=filter_condition,
+        limit=limit,
+        with_payload=True
+    )
+    
+    return [
+        {
+            "score": round(hit.score, 4),
+            "text": hit.payload["text"],
+            "reference": f"{hit.payload['book']} {hit.payload['chapter']}:{hit.payload['verse']}",
+            "translation": hit.payload["translation"],
+        }
+        for hit in results
+    ]
+```
+
+## Ce que j'ai appris sur les embeddings
+
+**La qualité de la requête compte énormément.** Une recherche comme "pardon" retourne des résultats différents de "Dieu pardonne les péchés". Plus la requête est contextualisée, plus les résultats sont pertinents. J'ai ajouté des suggestions de reformulation dans l'interface.
+
+**Le seuil de score est critique.** Un cosinus similarity de 0.75 n'a pas la même signification selon le domaine. Sur les textes religieux, j'ai trouvé qu'en dessous de 0.82, les résultats commençaient à perdre en pertinence perçue. C'est empirique, et ça dépend du corpus.
+
+**Le multilinguisme est compliqué.** `text-embedding-3-small` supporte plusieurs langues, mais les embeddings français et anglais ne sont pas directement comparables pour des textes très littéraux comme les traductions bibliques. J'ai créé des collections séparées par langue.
+
+> La recherche vectorielle est impressionnante dès le premier POC. La rendre robuste en production prend beaucoup plus de temps qu'on ne le croit.
+
+## Le frontend React
+
+L'interface de Wmbia est délibérément minimaliste : un champ de recherche, un sélecteur de traduction, et la liste des résultats avec leur score de similarité affiché discrètement.
+
+La décision la plus importante côté UX : **ne pas expliquer ce qu'est la recherche vectorielle**. L'utilisateur cherche une citation, il en trouve une. Le reste est de l'ingénierie invisible.
+
+---
+
+*Wmbia est en production sur [wmbia.com](https://wmbia.com). Le code backend n'est pas open-source pour l'instant, mais je suis disponible pour en discuter.*

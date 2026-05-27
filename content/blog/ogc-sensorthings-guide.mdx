@@ -1,0 +1,53 @@
+---
+title: "OGC SensorThings API — pourquoi ce standard change tout pour l'IoT environnemental"
+date: "2026-04-15"
+category: "IoT · SIG"
+excerpt: "Quand j'ai commencé à travailler sur FROST-FORMS pour le projet ANR TERRA FORMA, j'ai découvert un standard que je ne connaissais pas : l'OGC SensorThings API. Six mois plus tard, je ne peux plus m'en passer."
+tags: ["OGC", "IoT", "INSPIRE", "SensorThings", "CNRS"]
+---
+
+Quand j'ai commencé à travailler sur **FROST-FORMS** pour le projet ANR TERRA FORMA, mon premier réflexe a été de concevoir une API REST classique. Un endpoint `/sensors`, un `/measurements`, quelques jointures PostgreSQL, et le tour est joué. C'est ce que je savais faire.
+
+Puis mon superviseur m'a envoyé un lien vers la spécification **OGC SensorThings API**. J'ai mis deux jours à vraiment comprendre pourquoi ce standard existait. Aujourd'hui, je pense que c'est l'une des décisions d'architecture les plus importantes que nous ayons prises.
+
+## Le problème qu'il résout
+
+TERRA FORMA est un réseau de 30 laboratoires (CNRS, INRAE, IRD, UCA) qui déploient des capteurs IoT sur des écosystèmes représentatifs : forêts, zones humides, prairies. Chaque labo a ses propres instruments, ses propres unités de mesure, ses propres formats de données.
+
+Sans standard, l'interopérabilité est un cauchemar. Si le CNRS mesure la température en °C avec un certain identifiant, et qu'INRAE utilise un autre schéma, agréger les données devient un travail manuel constant.
+
+**OGC SensorThings** impose un modèle de données commun, inspiré de l'IoT sémantique :
+
+```
+Thing → Location → Datastream → Observation
+              ↓
+           Sensor + ObservedProperty
+```
+
+Chaque entité a une URL stable. Les observations sont liées à un phénomène observé (température, humidité, CO₂) défini de manière formelle. N'importe quel client qui comprend le standard peut interroger n'importe quelle implémentation.
+
+## Ce que j'ai implémenté concrètement
+
+Dans FROST-FORMS, nous utilisons **FROST-Server** (l'implémentation Java de référence du standard) comme backend de stockage des observations. Mon portail Next.js/Node.js joue le rôle d'interface de déclaration : les chercheurs saisissent leurs dispositifs via un wizard multi-étapes, et je traduis leurs saisies en entités SensorThings valides via l'API.
+
+La difficulté principale : le wizard doit être intuitif pour des écologues qui ne connaissent pas le modèle de données SensorThings. J'ai donc dû créer une couche d'abstraction entre le formulaire "terrain" et le modèle "standard".
+
+> L'UX du formulaire et la conformité au standard sont des contraintes opposées. Le défi est de rendre l'une invisible pour servir l'autre.
+
+## INSPIRE et ISO 19115 : la couche de métadonnées
+
+SensorThings gère les données en temps réel. Mais TERRA FORMA doit aussi publier des **métadonnées de catalogue** conformes à INSPIRE (la directive européenne sur l'information géographique) et ISO 19115.
+
+Ces standards définissent comment décrire un jeu de données : qui l'a produit, quelle est son emprise géographique, quelle est sa résolution temporelle, sous quelle licence est-il publié.
+
+J'ai dû implémenter la génération de fiches de métadonnées XML (format ISO 19139) à partir des informations saisies dans le portail. C'est verbeux — une fiche peut faire 800 lignes de XML — mais c'est ce qui permet à d'autres systèmes européens de découvrir nos données.
+
+## Ce que j'ai appris
+
+Travailler avec des standards OGC, c'est accepter une courbe d'apprentissage raide au départ pour gagner énormément de temps sur le long terme. Quand un nouveau laboratoire rejoint TERRA FORMA, il peut connecter ses capteurs au réseau sans négociation de format.
+
+L'interopérabilité, c'est de la dette technique **évitée**, pas contractée.
+
+---
+
+*Cet article fait partie d'une série sur mon travail sur le projet ANR TERRA FORMA. La suite : LoRaWAN terrain, ce que le déploiement de 53 capteurs m'a appris.*

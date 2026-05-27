@@ -1,0 +1,68 @@
+---
+title: "LoRaWAN terrain : ce que j'ai appris en déployant 53 capteurs pour le CNRS"
+date: "2026-05-01"
+category: "IoT · Terrain"
+excerpt: "Déployer des capteurs IoT LoRaWAN en laboratoire, c'est une chose. Les référencer dans un système de gestion pour 30 équipes de recherche réparties sur toute la France, c'en est une autre. Retour sur 6 mois de surprises."
+tags: ["LoRaWAN", "IoT", "CNRS", "TERRA FORMA", "PostgreSQL"]
+---
+
+Il y a une vérité que les documentations IoT ne disent pas : **le terrain n'est pas un environnement contrôlé**.
+
+Quand j'ai rejoint le projet ANR TERRA FORMA en octobre 2025, l'une de mes premières tâches a été de concevoir le catalogue des instruments de mesure du réseau. À ce moment-là, les chercheurs m'ont envoyé une feuille Excel avec 53 entrées, chacune représentant un capteur déployé sur l'un des 28 sites d'observation répartis en France.
+
+Ce qui semblait être une tâche d'import de données s'est transformé en une réflexion approfondie sur la gestion de l'identité des objets IoT.
+
+## Le problème de l'identité des capteurs
+
+Un capteur LoRaWAN a plusieurs identifiants : son **DevEUI** (identifiant unique matériel IEEE), son **AppKey** (clé de chiffrement d'application), et souvent un identifiant "terrain" que les chercheurs lui donnent selon leurs propres conventions.
+
+Sur les 53 capteurs de TERRA FORMA, j'ai trouvé :
+- 3 conventions de nommage différentes selon les labos
+- 8 capteurs sans DevEUI documenté (perdus ou jamais notés)
+- 12 capteurs avec des coordonnées GPS approximatives (données "à main levée")
+- 2 capteurs déployés sur des sites non encore officiellement enregistrés dans le système
+
+```sql
+-- Requête pour détecter les incohérences de données
+SELECT 
+  s.device_eui,
+  s.site_id,
+  COUNT(DISTINCT s.sensor_model) as model_count,
+  bool_or(s.coordinates IS NULL) as has_null_coords
+FROM sensors s
+GROUP BY s.device_eui, s.site_id
+HAVING COUNT(*) > 1 OR bool_or(s.coordinates IS NULL);
+```
+
+## Ce que j'ai construit pour y répondre
+
+FROST-FORMS inclut un **wizard de déclaration en 4 étapes** conçu pour guider les chercheurs (pas des développeurs) à travers le processus de référencement :
+
+1. **Identification du site** — sélection sur carte Leaflet ou saisie de coordonnées WGS84
+2. **Type d'instrument** — catalogue de 53 modèles avec leurs caractéristiques techniques
+3. **Configuration LoRaWAN** — DevEUI, AppEUI, plan de fréquences, période d'émission
+4. **Métadonnées scientifiques** — phénomènes observés, unités, incertitude de mesure
+
+Pour chaque capteur déclaré, le système génère automatiquement l'entité **Thing** correspondante dans FROST-Server (OGC SensorThings) avec ses `Location`, `Sensor`, `ObservedProperty` et `Datastream` associés.
+
+> La vraie valeur du wizard n'est pas de simplifier une tâche technique — c'est de rendre impossible l'erreur de saisie qui ruinerait 6 mois de données.
+
+## Les leçons de la validation des données terrain
+
+**Leçon 1 : La validation ne peut pas être stricte dès le départ.** Si tu obliges les chercheurs à saisir un DevEUI valide dès la création, ceux qui ont des capteurs anciens (ou mal documentés) abandonnent. J'ai ajouté un statut "brouillon" qui permet de créer un capteur incomplet et de le compléter plus tard.
+
+**Leçon 2 : Les coordonnées GPS sont des opinions.** Deux chercheurs peuvent donner des coordonnées différentes pour le même capteur selon qu'ils ont utilisé un GPS de précision, leur téléphone, ou GoogleMaps. J'ai ajouté un champ "précision estimée" et une alerte quand la distance entre deux déclarations du même site dépasse 50 mètres.
+
+**Leçon 3 : Le workflow de modération est non-négociable.** Chaque déclaration passe par un administrateur avant d'être publiée. Pas par manque de confiance, mais parce que les erreurs de référencement sont très coûteuses à corriger une fois les données accumulées.
+
+## Ce que LoRaWAN change vraiment
+
+Par rapport au WiFi ou à la 4G, LoRaWAN a des contraintes fortes : faible débit (quelques octets par message), duty cycle limité (moins de 1% du temps d'émission en Europe), portée dépendante de la topographie.
+
+Ces contraintes façonnent profondément la conception du système. Pas de mises à jour OTA (over-the-air) complexes. Pas de requêtes dynamiques depuis le capteur. Les données arrivent de manière asynchrone, parfois avec plusieurs heures de retard si le capteur est hors de portée d'une gateway.
+
+Mon système doit être pensé pour **l'ingestion asynchrone et les données manquantes**, pas pour le temps réel strict.
+
+---
+
+*La suite : comment j'ai utilisé Qdrant pour construire Wmbia, un moteur de recherche sémantique dans un domaine que je ne connaissais pas.*

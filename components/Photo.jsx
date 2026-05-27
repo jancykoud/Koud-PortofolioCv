@@ -5,69 +5,89 @@ import Image from "next/image";
 
 const Photo = () => {
   return (
-    <div className="w-full h-full relative flex justify-center items-center">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{
-          opacity: 1,
-          scale: 1,
-          transition: { delay: 0.5, duration: 0.8, ease: "easeInOut" },
+    <motion.div
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ delay: 0.4, duration: 0.7, ease: "easeOut" }}
+      className="relative flex justify-center items-center"
+    >
+      {/* Anneau décoratif violet */}
+      <div
+        className="absolute"
+        style={{
+          width: 260,
+          height: 260,
+          borderRadius: "50%",
+          border: "0.5px solid rgba(139,92,246,0.25)",
         }}
-        className="relative flex justify-center items-center"
-      >
-        {/* Cercle extérieur avec effet de rotation */}
-        <motion.div
-          className="absolute w-[150px] h-[150px] xl:w-[240px] xl:h-[240px] rounded-full border-4 border-accent"
-          animate={{ rotate: 360 }}
-          transition={{
-            duration: 20,
-            repeat: Infinity,
-            ease: "linear",
-          }}
-        >
-          {/* Animation circulaire ajoutée */}
-          <motion.svg 
-            className="w-full h-full"
-            fill="transparent"
-            viewBox="0 0 506 506"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <motion.circle 
-              cx="253" 
-              cy="253" 
-              r="250" 
-              stroke="#00ff99" 
-              strokeWidth="4" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-              initial={{ strokeDasharray: "24 10 0 0" }}
-              animate={{
-                strokeDasharray: ["15 120 25 25", "16 25 92 72", "4 250 22 22"],
-                rotate: [120, 360],
-              }}
-              transition={{
-                duration: 20,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-            />
-          </motion.svg>
-        </motion.div>
+      />
+      <div
+        className="absolute"
+        style={{
+          width: 220,
+          height: 220,
+          borderRadius: "50%",
+          border: "0.5px solid rgba(139,92,246,0.12)",
+        }}
+      />
 
-        {/* Image réduite et centrée dans le cercle */}
-        <div className="w-[110px] h-[110px] xl:w-[180px] xl:h-[180px] relative z-10 overflow-hidden rounded-full flex justify-center items-center">
-          <Image
-            src="/kjb.jpg"
-            width={180}
-            height={180}
-            priority
-            quality={100}
-            alt="Photo"
-            className="object-cover"
-          />
-        </div>
+      {/* Avatar */}
+      <div
+        className="relative z-10 overflow-hidden"
+        style={{
+          width: 180,
+          height: 180,
+          borderRadius: "50%",
+          border: "2px solid #e5e0d8",
+        }}
+      >
+        <Image
+          src="/kjb.jpg"
+          width={180}
+          height={180}
+          priority
+          quality={100}
+          alt="Jancy KOUD BANGA"
+          className="object-cover w-full h-full"
+        />
+      </div>
+
+      {/* Badge "Disponible" */}
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.9, duration: 0.4 }}
+        style={{
+          position: "absolute",
+          bottom: 8,
+          right: -8,
+          background: "#f7f5f1",
+          border: "0.5px solid #e5e0d8",
+          borderRadius: 100,
+          padding: "4px 10px",
+          fontSize: 10,
+          fontWeight: 500,
+          color: "#0a0a0a",
+          display: "flex",
+          alignItems: "center",
+          gap: 5,
+          boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+        }}
+        className="font-inter"
+      >
+        <span
+          style={{
+            width: 6,
+            height: 6,
+            borderRadius: "50%",
+            background: "#22c55e",
+            display: "inline-block",
+            animation: "pulse 2s infinite",
+          }}
+        />
+        Disponible
       </motion.div>
-    </div>
+    </motion.div>
   );
 };
 

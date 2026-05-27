@@ -1,0 +1,20 @@
+[
+  {
+    "src": "/fun/photo1.svg",
+    "caption": "Aurore boréale",
+    "category": "Voyages",
+    "location": "Islande"
+  },
+  {
+    "src": "/fun/photo2.svg",
+    "caption": "Forêt des Volcans",
+    "category": "Nature",
+    "location": "Rwanda"
+  },
+  {
+    "src": "/fun/photo3.svg",
+    "caption": "Nuit à Yaoundé",
+    "category": "Découvertes",
+    "location": "Yaoundé, Cameroun"
+  }
+]

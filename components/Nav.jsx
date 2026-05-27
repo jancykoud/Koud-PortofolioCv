@@ -1,41 +1,43 @@
-"use client"
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const links = [
-    {
-        name: "accueil",
-        path: "/",
-    },
-    {
-        name: "projets",
-        path: "/work",
-    },
-    {
-        name: "CV",
-        path: "/resume",
-    },
-    {
-        name: "contact",
-        path: "/contact",
-    },
+  { name: "Accueil", path: "/" },
+  { name: "Projets", path: "/work" },
+  { name: "Blog", path: "/blog" },
+  { name: "CV", path: "/resume" },
+  { name: "Apprentissage", path: "/learning" },
+  { name: "Détente", path: "/fun" },
+  { name: "Contact", path: "/contact" },
 ];
 
-
 const Nav = () => {
-    const pathname = usePathname();
-    return (
-        <nav className="flex gap-8">
-            {links.map((link, index)=>{
-                return <Link href={link.path} key = {index} className={`${link.path===pathname && "text-accent border-b-2 border-accent "} capitalize font-medium hover:text-accent transition-all`}>
-                    {link.name}
-                </Link>
-            })
+  const pathname = usePathname();
 
-            }
-        </nav>
-    );
+  return (
+    <nav className="flex gap-7">
+      {links.map((link, index) => {
+        const isActive = link.path === pathname;
+        return (
+          <Link
+            href={link.path}
+            key={index}
+            className={`
+              text-[13px] font-medium font-inter transition-colors duration-200
+              ${isActive
+                ? "text-accent"
+                : "text-primary-dark/60 hover:text-primary-dark"
+              }
+            `}
+          >
+            {link.name}
+          </Link>
+        );
+      })}
+    </nav>
+  );
 };
 
-export default Nav;  // Assure-toi d'exporter le composant
+export default Nav;
