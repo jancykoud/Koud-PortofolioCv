@@ -61,17 +61,18 @@ const Photo = () => {
           position: "absolute",
           bottom: 8,
           right: -8,
-          background: "#f7f5f1",
-          border: "0.5px solid #e5e0d8",
+          zIndex: 20,
+          background: "#1a1a1a",
+          border: "0.5px solid rgba(255,255,255,0.12)",
           borderRadius: 100,
           padding: "4px 10px",
           fontSize: 10,
           fontWeight: 500,
-          color: "#0a0a0a",
+          color: "#ffffff",
           display: "flex",
           alignItems: "center",
           gap: 5,
-          boxShadow: "0 2px 12px rgba(0,0,0,0.06)",
+          boxShadow: "0 2px 12px rgba(0,0,0,0.4)",
         }}
         className="font-inter"
       >
