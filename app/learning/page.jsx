@@ -83,7 +83,7 @@ function CourseCard({ course, index }) {
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.5, delay: (index % 4) * 0.07 }}
       className="p-5 rounded-xl flex flex-col gap-4"
-      style={{ background: "#fff", border: "0.5px solid #e5e0d8" }}
+      style={{ background: "#1a1a1a", border: "0.5px solid rgba(255,255,255,0.08)" }}
     >
       {/* Header */}
       <div className="flex items-start justify-between gap-3">
@@ -98,7 +98,7 @@ function CourseCard({ course, index }) {
           {/* Catégorie */}
           <span
             className="inline-block font-inter text-[10px] uppercase tracking-[0.1em] px-2.5 py-0.5 rounded-full w-fit"
-            style={{ background: "#f3f0ff", color: "#7c3aed" }}
+            style={{ background: "rgba(139,92,246,0.15)", color: "#a78bfa" }}
           >
             {course.category}
           </span>
@@ -107,14 +107,14 @@ function CourseCard({ course, index }) {
       </div>
 
       {/* Titre */}
-      <h3 className="font-syne font-bold leading-snug" style={{ fontSize: 14, color: "#0a0a0a" }}>
+      <h3 className="font-syne font-bold leading-snug" style={{ fontSize: 14, color: "#ffffff" }}>
         {course.title}
       </h3>
 
       {/* Progression */}
       <div className="flex flex-col gap-2">
         <div className="flex justify-between items-center">
-          <span className="font-inter text-[11px]" style={{ color: "#aaa" }}>Progression</span>
+          <span className="font-inter text-[11px]" style={{ color: "rgba(255,255,255,0.4)" }}>Progression</span>
           <span className="font-inter text-[11px] font-medium" style={{ color: "#8b5cf6" }}>{course.progress}%</span>
         </div>
         <ProgressBar value={course.progress} />
@@ -123,10 +123,10 @@ function CourseCard({ course, index }) {
       {/* Footer */}
       <div className="flex items-center justify-between gap-2 mt-auto">
         <div className="flex flex-col gap-0.5">
-          <span className="font-inter text-[11px]" style={{ color: "#aaa" }}>
+          <span className="font-inter text-[11px]" style={{ color: "rgba(255,255,255,0.4)" }}>
             Fin prévue : {formatDate(course.endDate)}
           </span>
-          <span className="font-inter text-[10px]" style={{ color: "#ccc" }}>
+          <span className="font-inter text-[10px]" style={{ color: "rgba(255,255,255,0.25)" }}>
             {weeksUntil(course.endDate)}
           </span>
         </div>
@@ -159,9 +159,9 @@ function RoadmapItem({ item, index }) {
     >
       {/* Dot + line */}
       <div className="flex flex-col items-center flex-shrink-0" style={{ paddingTop: 2 }}>
-        <div className="w-3 h-3 rounded-full ring-4 ring-[#f7f5f1] z-10" style={{ background: dotColor }} />
+        <div className="w-3 h-3 rounded-full ring-4 ring-[#0a0a0a] z-10" style={{ background: dotColor }} />
         {index < data.roadmap.length - 1 && (
-          <div style={{ width: 1, flex: 1, minHeight: 40, background: "#e5e0d8", marginTop: 4 }} />
+          <div style={{ width: 1, flex: 1, minHeight: 40, background: "rgba(255,255,255,0.08)", marginTop: 4 }} />
         )}
       </div>
 
@@ -169,19 +169,19 @@ function RoadmapItem({ item, index }) {
       <div className="pb-8 flex flex-col gap-2">
         <span
           className="inline-block font-inter text-[10px] px-2.5 py-0.5 rounded-full w-fit"
-          style={{ background: "#f0f0f0", color: "#999" }}
+          style={{ background: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.4)" }}
         >
           {formatPlannedDate(item.plannedDate)}
         </span>
-        <h4 className="font-syne font-bold" style={{ fontSize: 15, color: "#0a0a0a" }}>{item.title}</h4>
+        <h4 className="font-syne font-bold" style={{ fontSize: 15, color: "#ffffff" }}>{item.title}</h4>
         <div className="flex items-center gap-2">
           <span
             className="inline-block font-inter text-[10px] px-2.5 py-0.5 rounded-full"
-            style={{ background: "#f3f0ff", color: "#7c3aed" }}
+            style={{ background: "rgba(139,92,246,0.15)", color: "#a78bfa" }}
           >
             {item.category}
           </span>
-          <span className="font-inter text-[11px]" style={{ color: "#aaa" }}>
+          <span className="font-inter text-[11px]" style={{ color: "rgba(255,255,255,0.35)" }}>
             {item.status === "planned" ? "Prévu" : "En préparation"}
           </span>
         </div>
@@ -201,21 +201,21 @@ export default function LearningPage() {
   const activeCourses = data.courses.filter((c) => c.status === "in-progress");
 
   return (
-    <section className="min-h-[calc(100vh-80px)] bg-[#f7f5f1]">
+    <section className="min-h-[calc(100vh-80px)]" style={{ background: "#0a0a0a" }}>
       <div className="container mx-auto px-4 pt-16 pb-24">
 
         {/* ── Header éditorial ── */}
         <div className="mb-12">
           <div className="flex items-center gap-4 mb-4">
-            <div style={{ height: "0.5px", width: 28, background: "#aaa" }} />
-            <span className="font-inter uppercase tracking-[0.18em] text-[9px] text-muted">
+            <div style={{ height: "0.5px", width: 28, background: "rgba(255,255,255,0.25)" }} />
+            <span className="font-inter uppercase tracking-[0.18em] text-[9px]" style={{ color: "rgba(255,255,255,0.35)" }}>
               Formation continue · Auto-apprentissage
             </span>
           </div>
           <div className="flex flex-col xl:flex-row xl:items-end xl:justify-between gap-4">
             <h1
               className="font-syne font-black leading-none"
-              style={{ fontSize: "clamp(32px, 6vw, 60px)", color: "#0a0a0a", letterSpacing: "-0.025em" }}
+              style={{ fontSize: "clamp(32px, 6vw, 60px)", color: "#ffffff", letterSpacing: "-0.025em" }}
             >
               En formation
               <br />
@@ -232,7 +232,7 @@ export default function LearningPage() {
               </span>
             </div>
           </div>
-          <p className="font-inter mt-3" style={{ fontSize: 13, color: "#aaa" }}>
+          <p className="font-inter mt-3" style={{ fontSize: 13, color: "rgba(255,255,255,0.4)" }}>
             Formations en cours · Certifications · Roadmap
           </p>
         </div>
@@ -247,7 +247,7 @@ export default function LearningPage() {
               style={
                 activeFilter === cat
                   ? { background: "#8b5cf6", color: "#fff", border: "0.5px solid #8b5cf6" }
-                  : { background: "transparent", color: "#aaa", border: "0.5px solid #e5e0d8" }
+                  : { background: "transparent", color: "rgba(255,255,255,0.4)", border: "0.5px solid rgba(255,255,255,0.1)" }
               }
             >
               {cat}
@@ -258,19 +258,19 @@ export default function LearningPage() {
         {/* ── Section 1 : Formations en cours ── */}
         <div className="mb-16">
           <div className="flex items-center gap-3 mb-6">
-            <h2 className="font-syne font-bold" style={{ fontSize: 18, color: "#0a0a0a" }}>
+            <h2 className="font-syne font-bold" style={{ fontSize: 18, color: "#ffffff" }}>
               En cours
             </h2>
             <span
               className="font-inter text-[11px] px-2.5 py-0.5 rounded-full"
-              style={{ background: "#f3f0ff", color: "#7c3aed" }}
+              style={{ background: "rgba(139,92,246,0.15)", color: "#a78bfa" }}
             >
               {filtered.length}
             </span>
           </div>
 
           {filtered.length === 0 ? (
-            <p className="font-inter text-[13px]" style={{ color: "#aaa" }}>
+            <p className="font-inter text-[13px]" style={{ color: "rgba(255,255,255,0.4)" }}>
               Aucune formation dans cette catégorie.
             </p>
           ) : (
@@ -291,17 +291,17 @@ export default function LearningPage() {
           {data.certifications.length === 0 ? (
             <div
               className="flex flex-col items-center justify-center gap-3 rounded-xl py-16"
-              style={{ border: "0.5px dashed #e5e0d8", background: "#fff" }}
+              style={{ border: "0.5px dashed rgba(255,255,255,0.1)", background: "#111111" }}
             >
               {/* Icône certificat SVG */}
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#e5e0d8" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="8" r="6" />
                 <path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11" />
               </svg>
-              <p className="font-syne font-bold" style={{ fontSize: 15, color: "#0a0a0a" }}>
+              <p className="font-syne font-bold" style={{ fontSize: 15, color: "#ffffff" }}>
                 Bientôt — certifications en cours d'obtention
               </p>
-              <p className="font-inter text-center max-w-xs" style={{ fontSize: 12, color: "#bbb" }}>
+              <p className="font-inter text-center max-w-xs" style={{ fontSize: 12, color: "rgba(255,255,255,0.3)" }}>
                 Cette section se remplira automatiquement dès l'obtention de ta première certification
               </p>
             </div>
@@ -311,14 +311,14 @@ export default function LearningPage() {
                 <div
                   key={cert.title}
                   className="cert-card p-6 rounded-xl flex flex-col gap-3"
-                  style={{ background: "#fff", border: "0.5px solid #e5e0d8" }}
+                  style={{ background: "#1a1a1a", border: "0.5px solid rgba(255,255,255,0.08)" }}
                 >
-                  <div className="w-10 h-10 rounded-lg flex items-center justify-center font-syne font-black text-sm" style={{ background: "#f3f0ff", color: "#7c3aed" }}>
+                  <div className="w-10 h-10 rounded-lg flex items-center justify-center font-syne font-black text-sm" style={{ background: "rgba(139,92,246,0.15)", color: "#a78bfa" }}>
                     {cert.title.slice(0, 2).toUpperCase()}
                   </div>
-                  <h3 className="font-syne font-bold" style={{ fontSize: 14, color: "#0a0a0a" }}>{cert.title}</h3>
-                  <p className="font-inter text-[12px]" style={{ color: "#aaa" }}>{cert.issuer}</p>
-                  <p className="font-inter text-[11px]" style={{ color: "#ccc" }}>{cert.date}</p>
+                  <h3 className="font-syne font-bold" style={{ fontSize: 14, color: "#ffffff" }}>{cert.title}</h3>
+                  <p className="font-inter text-[12px]" style={{ color: "rgba(255,255,255,0.4)" }}>{cert.issuer}</p>
+                  <p className="font-inter text-[11px]" style={{ color: "rgba(255,255,255,0.25)" }}>{cert.date}</p>
                   {cert.credlyUrl && (
                     <a href={cert.credlyUrl} target="_blank" rel="noopener noreferrer" className="font-inter text-[11px] underline underline-offset-2" style={{ color: "#8b5cf6" }}>
                       Vérifier →

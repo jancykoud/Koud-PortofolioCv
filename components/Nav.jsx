@@ -24,13 +24,12 @@ const Nav = () => {
           <Link
             href={link.path}
             key={index}
-            className={`
-              text-[13px] font-medium font-inter transition-colors duration-200
-              ${isActive
-                ? "text-accent"
-                : "text-primary-dark/60 hover:text-primary-dark"
-              }
-            `}
+            className="text-[13px] font-medium font-inter transition-colors duration-200"
+            style={{
+              color: isActive ? "#ffffff" : "rgba(255,255,255,0.45)",
+            }}
+            onMouseEnter={(e) => { if (!isActive) e.target.style.color = "rgba(255,255,255,0.85)"; }}
+            onMouseLeave={(e) => { if (!isActive) e.target.style.color = "rgba(255,255,255,0.45)"; }}
           >
             {link.name}
           </Link>

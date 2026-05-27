@@ -9,7 +9,6 @@ import WorldMap from "@/components/WorldMap";
 import Link from "next/link";
 import { useMode } from "@/components/ModeContext";
 
-// ── Animations ──────────────────────────────────────────────────────────────
 const container = {
   hidden: {},
   show: { transition: { staggerChildren: 0.09 } },
@@ -20,7 +19,6 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
 };
 
-// ── Contenu par mode ────────────────────────────────────────────────────────
 const MODES = {
   recruiter: {
     badge: "En poste · Ouverte aux opportunités",
@@ -28,12 +26,12 @@ const MODES = {
     cta: { label: "Voir mon CV →", href: "/resume" },
     ctaSecondary: { label: "Mes projets", href: "/work" },
     tags: [
-      { label: "OGC · INSPIRE · ISO 19115", style: { background: "#f3f0ff", border: "0.5px solid #ddd6fe", color: "#7c3aed" } },
-      { label: "React · TypeScript", style: { background: "#0a0a0a", border: "none", color: "#fff" } },
-      { label: "Node.js", style: { background: "transparent", border: "0.5px solid #e5e0d8", color: "#aaaaaa" } },
-      { label: "PostgreSQL", style: { background: "transparent", border: "0.5px solid #e5e0d8", color: "#aaaaaa" } },
-      { label: "Docker", style: { background: "transparent", border: "0.5px solid #e5e0d8", color: "#aaaaaa" } },
-      { label: "LoRaWAN · IoT", style: { background: "transparent", border: "0.5px solid #e5e0d8", color: "#aaaaaa" } },
+      { label: "OGC · INSPIRE · ISO 19115", style: { background: "rgba(139,92,246,0.15)", border: "0.5px solid rgba(139,92,246,0.3)", color: "#a78bfa" } },
+      { label: "React · TypeScript",        style: { background: "#ffffff", border: "none", color: "#0a0a0a" } },
+      { label: "Node.js",                   style: { background: "rgba(255,255,255,0.06)", border: "0.5px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" } },
+      { label: "PostgreSQL",                style: { background: "rgba(255,255,255,0.06)", border: "0.5px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" } },
+      { label: "Docker",                    style: { background: "rgba(255,255,255,0.06)", border: "0.5px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" } },
+      { label: "LoRaWAN · IoT",             style: { background: "rgba(255,255,255,0.06)", border: "0.5px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" } },
     ],
   },
   freelance: {
@@ -42,11 +40,11 @@ const MODES = {
     cta: { label: "Voir mes projets →", href: "/work" },
     ctaSecondary: { label: "Démarrer un projet", href: "/contact?sujet=Mission+freelance" },
     tags: [
-      { label: "Disponible", style: { background: "#dcfce7", border: "0.5px solid #86efac", color: "#16a34a" } },
-      { label: "React · Next.js 15", style: { background: "#0a0a0a", border: "none", color: "#fff" } },
-      { label: "SIG · Cartographie", style: { background: "#f3f0ff", border: "0.5px solid #ddd6fe", color: "#7c3aed" } },
-      { label: "Full-stack", style: { background: "transparent", border: "0.5px solid #e5e0d8", color: "#aaaaaa" } },
-      { label: "API · Backend", style: { background: "transparent", border: "0.5px solid #e5e0d8", color: "#aaaaaa" } },
+      { label: "Disponible",        style: { background: "rgba(34,197,94,0.15)", border: "0.5px solid rgba(34,197,94,0.3)", color: "#4ade80" } },
+      { label: "React · Next.js 15",style: { background: "#ffffff", border: "none", color: "#0a0a0a" } },
+      { label: "SIG · Cartographie",style: { background: "rgba(139,92,246,0.15)", border: "0.5px solid rgba(139,92,246,0.3)", color: "#a78bfa" } },
+      { label: "Full-stack",        style: { background: "rgba(255,255,255,0.06)", border: "0.5px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" } },
+      { label: "API · Backend",     style: { background: "rgba(255,255,255,0.06)", border: "0.5px solid rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.6)" } },
     ],
   },
 };
@@ -56,11 +54,10 @@ export default function Home() {
   const content = MODES[mode] ?? MODES.recruiter;
 
   return (
-    <section className="min-h-[calc(100vh-80px)] flex flex-col">
+    <section className="min-h-[calc(100vh-80px)] flex flex-col" style={{ background: "#0a0a0a" }}>
       {/* ── Hero ── */}
       <div className="container mx-auto flex flex-col xl:flex-row items-center justify-between gap-12 xl:gap-8 pt-12 xl:pt-20 pb-8">
 
-        {/* ─ Colonne gauche ─ */}
         <motion.div
           variants={container}
           initial="hidden"
@@ -68,11 +65,8 @@ export default function Home() {
           className="flex flex-col items-center xl:items-start text-center xl:text-left order-2 xl:order-none max-w-[540px]"
         >
           {/* Eyebrow badge */}
-          <motion.div
-            variants={item}
-            className="flex items-center gap-3 mb-8 w-full justify-center xl:justify-start"
-          >
-            <div style={{ height: "0.5px", width: 32, background: "#aaaaaa" }} />
+          <motion.div variants={item} className="flex items-center gap-3 mb-8 w-full justify-center xl:justify-start">
+            <div style={{ height: "0.5px", width: 32, background: "rgba(255,255,255,0.25)" }} />
             <AnimatePresence mode="wait">
               <motion.span
                 key={mode}
@@ -80,34 +74,31 @@ export default function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -4 }}
                 transition={{ duration: 0.25 }}
-                className="font-inter uppercase tracking-[0.18em] text-[9px] text-muted"
-                style={{ whiteSpace: "nowrap" }}
+                className="font-inter uppercase tracking-[0.18em] text-[9px]"
+                style={{ color: "rgba(255,255,255,0.35)", whiteSpace: "nowrap" }}
               >
                 {content.badge}
               </motion.span>
             </AnimatePresence>
-            <div style={{ height: "0.5px", flex: 1, background: "#e5e0d8" }} />
+            <div style={{ height: "0.5px", flex: 1, background: "rgba(255,255,255,0.08)" }} />
           </motion.div>
 
-          {/* Titre éditorial XXL */}
+          {/* Titre */}
           <motion.h1
             variants={item}
             className="font-syne leading-[1.02] mb-6"
             style={{ fontSize: "clamp(40px, 6vw, 58px)", letterSpacing: "-0.025em" }}
           >
-            <span style={{ fontWeight: 200, color: "#cccccc" }}>Ingénieure</span>
+            <span style={{ fontWeight: 200, color: "rgba(255,255,255,0.3)" }}>Ingénieure</span>
             <br />
-            <span style={{ fontWeight: 900, color: "#0a0a0a" }}>Full</span>
+            <span style={{ fontWeight: 900, color: "#ffffff" }}>Full</span>
             <span style={{ fontWeight: 900, color: "#8b5cf6" }}>stack</span>
             <br />
-            <span style={{ fontWeight: 900, color: "#0a0a0a" }}>&amp; SIG</span>
+            <span style={{ fontWeight: 900, color: "#ffffff" }}>&amp; SIG</span>
           </motion.h1>
 
           {/* Description + CTAs */}
-          <motion.div
-            variants={item}
-            className="flex flex-col xl:flex-row items-center xl:items-start gap-6 mb-8 w-full"
-          >
+          <motion.div variants={item} className="flex flex-col xl:flex-row items-center xl:items-start gap-6 mb-8 w-full">
             <AnimatePresence mode="wait">
               <motion.p
                 key={mode + "-desc"}
@@ -116,7 +107,7 @@ export default function Home() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
                 className="font-inter text-center xl:text-left leading-relaxed"
-                style={{ fontSize: 11, color: "#999", maxWidth: 180, flexShrink: 0 }}
+                style={{ fontSize: 11, color: "rgba(255,255,255,0.45)", maxWidth: 180, flexShrink: 0 }}
               >
                 {content.desc}
               </motion.p>
@@ -133,15 +124,15 @@ export default function Home() {
               >
                 <Link
                   href={content.cta.href}
-                  style={{ background: "#0a0a0a", color: "#f7f5f1", borderRadius: 100, padding: "10px 22px", fontSize: 13, fontWeight: 500 }}
-                  className="font-inter hover:opacity-80 transition-opacity"
+                  style={{ background: "#ffffff", color: "#0a0a0a", borderRadius: 100, padding: "10px 22px", fontSize: 13, fontWeight: 600 }}
+                  className="font-inter hover:opacity-85 transition-opacity"
                 >
                   {content.cta.label}
                 </Link>
                 <Link
                   href={content.ctaSecondary.href}
-                  style={{ border: "0.5px solid #dddddd", borderRadius: 100, color: "#0a0a0a", background: "transparent", padding: "10px 22px", fontSize: 13, fontWeight: 500 }}
-                  className="font-inter hover:bg-primary-dark/5 transition-colors"
+                  style={{ border: "0.5px solid rgba(255,255,255,0.2)", borderRadius: 100, color: "#ffffff", background: "transparent", padding: "10px 22px", fontSize: 13, fontWeight: 500 }}
+                  className="font-inter hover:bg-white/10 transition-colors"
                 >
                   {content.ctaSecondary.label}
                 </Link>
@@ -150,10 +141,7 @@ export default function Home() {
           </motion.div>
 
           {/* Tags pills */}
-          <motion.div
-            variants={item}
-            className="flex flex-wrap gap-2 justify-center xl:justify-start"
-          >
+          <motion.div variants={item}>
             <AnimatePresence mode="wait">
               <motion.div
                 key={mode + "-tags"}
@@ -176,7 +164,7 @@ export default function Home() {
             </AnimatePresence>
           </motion.div>
 
-          {/* Section tarifaire freelance */}
+          {/* CTA freelance */}
           <AnimatePresence>
             {mode === "freelance" && (
               <motion.div
@@ -199,22 +187,15 @@ export default function Home() {
           </AnimatePresence>
         </motion.div>
 
-        {/* ─ Colonne droite — Photo ─ */}
+        {/* Photo */}
         <div className="order-1 xl:order-none">
           <Photo />
         </div>
       </div>
 
-      {/* ── Marquee technologies ── */}
       <TechMarquee />
-
-      {/* ── En ce moment ── */}
       <NowSection />
-
-      {/* ── Carte monde ── */}
       <WorldMap />
-
-      {/* ── Stats band ── */}
       <Stats />
     </section>
   );

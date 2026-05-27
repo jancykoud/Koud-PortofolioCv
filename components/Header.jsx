@@ -8,57 +8,51 @@ import { motion, useScroll, useTransform } from "framer-motion";
 
 const Header = () => {
   const { scrollY } = useScroll();
-
-  // Compression au scroll : padding réduit + ombre légère
   const paddingY = useTransform(scrollY, [0, 80], [28, 14]);
-  const shadowOpacity = useTransform(scrollY, [0, 80], [0, 0.06]);
 
   return (
     <motion.header
       style={{
         paddingTop: paddingY,
         paddingBottom: paddingY,
-        boxShadow: shadowOpacity.get() > 0
-          ? `0 1px 24px rgba(0,0,0,${shadowOpacity.get()})`
-          : "none",
         position: "sticky",
         top: 0,
         zIndex: 50,
-        backgroundColor: "#f7f5f1",
-        borderBottom: "0.5px solid #e5e0d8",
+        backgroundColor: "#0a0a0a",
+        borderBottom: "0.5px solid rgba(255,255,255,0.08)",
       }}
     >
       <div className="container mx-auto flex justify-between items-center">
-        {/* Logo "Jancy." */}
+        {/* Logo */}
         <Link href="/">
-          <span className="font-syne font-black text-[28px] tracking-tight text-primary-dark">
+          <span className="font-syne font-black text-[28px] tracking-tight text-white">
             Jancy<span style={{ color: "#8b5cf6" }}>.</span>
           </span>
         </Link>
 
-        {/* Desktop nav + CTA */}
+        {/* Desktop */}
         <div className="hidden xl:flex items-center gap-8">
           <ModeToggle />
           <Nav />
           <Link
             href="/contact"
             style={{
-              border: "0.5px solid #0a0a0a",
+              border: "0.5px solid rgba(255,255,255,0.2)",
               borderRadius: "100px",
-              color: "#0a0a0a",
+              color: "#ffffff",
               background: "transparent",
               padding: "8px 20px",
               fontSize: "13px",
               fontWeight: 500,
-              transition: "background 0.2s, color 0.2s",
+              transition: "background 0.2s, border-color 0.2s",
             }}
-            className="hover:bg-primary-dark hover:text-primary font-inter"
+            className="font-inter hover:bg-white/10"
           >
             Me contacter
           </Link>
         </div>
 
-        {/* Mobile nav */}
+        {/* Mobile */}
         <div className="xl:hidden">
           <MobileNav />
         </div>

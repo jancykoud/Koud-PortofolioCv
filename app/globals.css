@@ -3,12 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --background: #f7f5f1;
-  --foreground: #0a0a0a;
+  --background: #0a0a0a;
+  --foreground: #ffffff;
   --accent: #8b5cf6;
   --accent-hover: #7c3aed;
-  --muted: #aaaaaa;
-  --border: #e5e0d8;
+  --muted: rgba(255,255,255,0.35);
+  --border: rgba(255,255,255,0.08);
   --radius: 0.5rem;
 }
 
@@ -25,7 +25,6 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Classes titres éditoriaux */
   .h1 {
     @apply font-syne text-[48px] xl:text-[80px] leading-[1.05] font-black tracking-hero;
   }
@@ -46,7 +45,7 @@
 .group:hover .blog-card {
   border-color: #8b5cf6 !important;
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(139, 92, 246, 0.08);
+  box-shadow: 0 12px 40px rgba(139, 92, 246, 0.15);
 }
 
 /* ── Masonry grid ─────────────────────────────────────────── */
@@ -69,7 +68,7 @@
 .mdx-body h3 {
   font-family: var(--font-syne);
   font-weight: 700;
-  color: #0a0a0a;
+  color: #ffffff;
   line-height: 1.2;
   margin-top: 2rem;
   margin-bottom: 0.75rem;
@@ -80,18 +79,18 @@
   font-family: var(--font-inter);
   font-size: 0.9375rem;
   line-height: 1.75;
-  color: #333;
+  color: rgba(255,255,255,0.7);
   margin-bottom: 1.25rem;
 }
 .mdx-body a {
-  color: #8b5cf6;
+  color: #a78bfa;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 .mdx-body ul, .mdx-body ol {
   padding-left: 1.5rem;
   margin-bottom: 1.25rem;
-  color: #333;
+  color: rgba(255,255,255,0.7);
   font-size: 0.9375rem;
   line-height: 1.75;
 }
@@ -100,24 +99,25 @@
   border-left: 3px solid #8b5cf6;
   padding: 0.75rem 1.25rem;
   margin: 1.5rem 0;
-  background: #f3f0ff;
+  background: rgba(139,92,246,0.1);
   border-radius: 0 8px 8px 0;
-  color: #555;
+  color: rgba(255,255,255,0.6);
   font-style: italic;
 }
 .mdx-body code:not(pre code) {
-  background: #f3f0ff;
-  color: #7c3aed;
+  background: rgba(139,92,246,0.15);
+  color: #a78bfa;
   padding: 2px 6px;
   border-radius: 4px;
   font-size: 0.875rem;
   font-family: monospace;
 }
 .mdx-body pre {
-  background: #0a0a0a;
+  background: #111111;
   color: rgba(255,255,255,0.85);
   padding: 1.25rem 1.5rem;
   border-radius: 10px;
+  border: 0.5px solid rgba(255,255,255,0.08);
   overflow-x: auto;
   margin: 1.5rem 0;
   font-size: 0.85rem;
@@ -132,7 +132,7 @@
 }
 .mdx-body hr {
   border: none;
-  border-top: 0.5px solid #e5e0d8;
+  border-top: 0.5px solid rgba(255,255,255,0.08);
   margin: 2.5rem 0;
 }
 
@@ -168,19 +168,18 @@
 /* ── Utilitaires supplémentaires ──────────────────────────── */
 @layer utilities {
   .text-outline {
-    -webkit-text-stroke: 1px #0a0a0a;
+    -webkit-text-stroke: 1px rgba(255,255,255,0.3);
     color: transparent;
   }
 
-  /* Scrollbar fine crème */
   ::-webkit-scrollbar {
     width: 4px;
   }
   ::-webkit-scrollbar-track {
-    background: #f7f5f1;
+    background: #0a0a0a;
   }
   ::-webkit-scrollbar-thumb {
-    background: #e5e0d8;
+    background: rgba(255,255,255,0.1);
     border-radius: 2px;
   }
   ::-webkit-scrollbar-thumb:hover {

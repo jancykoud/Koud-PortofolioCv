@@ -21,15 +21,16 @@ module.exports = {
     },
     extend: {
       colors: {
-        // Système éditorial luxe
-        primary: "#f7f5f1",        // fond crème chaud
-        "primary-dark": "#0a0a0a", // texte principal
+        primary: "#0a0a0a",           // fond noir profond
+        "primary-dark": "#ffffff",    // texte principal blanc
+        "surface": "#111111",         // bg secondaire
+        "surface-card": "#1a1a1a",    // bg cards
         accent: {
-          DEFAULT: "#8b5cf6",      // violet
-          hover: "#7c3aed",        // violet profond
+          DEFAULT: "#8b5cf6",
+          hover: "#7c3aed",
         },
-        muted: "#aaaaaa",
-        "border-warm": "#e5e0d8",
+        muted: "rgba(255,255,255,0.35)",
+        "border-dark": "rgba(255,255,255,0.08)",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -39,7 +40,6 @@ module.exports = {
       fontFamily: {
         syne: ["var(--font-syne)", "sans-serif"],
         inter: ["var(--font-inter)", "sans-serif"],
-        // compatibilité ascendante
         primary: ["var(--font-inter)", "sans-serif"],
       },
       letterSpacing: {
