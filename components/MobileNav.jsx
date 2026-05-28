@@ -27,12 +27,12 @@ const MobileNav = () => {
       </SheetTrigger>
       <SheetContent
         className="flex flex-col"
-        style={{ backgroundColor: "#f7f5f1", border: "none" }}
+        style={{ backgroundColor: "#0a0a0a", borderLeft: "0.5px solid rgba(255,255,255,0.08)" }}
       >
         {/* Logo */}
         <div className="mt-24 mb-12 text-center">
           <Link href="/" onClick={() => setIsOpen(false)}>
-            <span className="font-syne font-black text-[32px] text-primary-dark">
+            <span className="font-syne font-black text-[32px]" style={{ color: "#ffffff" }}>
               Jancy<span style={{ color: "#8b5cf6" }}>.</span>
             </span>
           </Link>
@@ -47,10 +47,8 @@ const MobileNav = () => {
                 href={link.path}
                 key={index}
                 onClick={() => setIsOpen(false)}
-                className={`
-                  text-xl font-inter font-medium transition-colors
-                  ${isActive ? "text-accent" : "text-primary-dark/70 hover:text-primary-dark"}
-                `}
+                className="text-xl font-inter font-medium transition-colors"
+                style={{ color: isActive ? "#8b5cf6" : "rgba(255,255,255,0.6)" }}
               >
                 {link.name}
               </Link>
@@ -64,9 +62,9 @@ const MobileNav = () => {
             href="/contact"
             onClick={() => setIsOpen(false)}
             style={{
-              border: "0.5px solid #0a0a0a",
+              border: "0.5px solid rgba(255,255,255,0.2)",
               borderRadius: "100px",
-              color: "#0a0a0a",
+              color: "#ffffff",
               padding: "10px 28px",
               fontSize: "14px",
               fontWeight: 500,
@@ -87,11 +85,11 @@ const MobileNav = () => {
               width: 40,
               height: 40,
               borderRadius: "50%",
-              border: "0.5px solid #e5e0d8",
+              border: "0.5px solid rgba(255,255,255,0.12)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#0a0a0a",
+              color: "#ffffff",
             }}
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -106,11 +104,11 @@ const MobileNav = () => {
               width: 40,
               height: 40,
               borderRadius: "50%",
-              border: "0.5px solid #e5e0d8",
+              border: "0.5px solid rgba(255,255,255,0.12)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#0a0a0a",
+              color: "#ffffff",
             }}
           >
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
