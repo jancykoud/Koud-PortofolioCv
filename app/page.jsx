@@ -198,7 +198,7 @@ export default function Home() {
               color: "rgba(0,0,0,0.55)",
             }}
           >
-            SCROLL DOWN
+            DÉFILER
           </span>
         </div>
 
@@ -243,7 +243,7 @@ export default function Home() {
               margin: 0,
             }}
           >
-            About
+            À propos
           </h2>
           <p
             style={{
@@ -311,7 +311,7 @@ export default function Home() {
               margin: 0,
             }}
           >
-            ↳ Projects
+            ↳ Projets
           </h2>
           <div
             style={{
@@ -740,11 +740,11 @@ function ProjectRow({ project, isHovered, onMouseEnter, onMouseLeave }) {
 
         {project.href ? (
           <a href={project.href} target="_blank" rel="noopener noreferrer" style={btnStyle}>
-            VOIR LE SITE
+            VOIR →
           </a>
         ) : (
           <Link href="/contact" style={btnStyle}>
-            CONTACT FOR DETAILS
+            DEMANDER INFOS
           </Link>
         )}
       </div>
