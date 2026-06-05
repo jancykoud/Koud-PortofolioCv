@@ -7,7 +7,6 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   prefix: "",
-
   theme: {
     container: {
       center: true,
@@ -21,23 +20,21 @@ module.exports = {
     },
     extend: {
       colors: {
-        primary: "#0a0a0a",           // fond noir profond
-        "primary-dark": "#ffffff",    // texte principal blanc
-        "surface": "#111111",         // bg secondaire
-        "surface-card": "#1a1a1a",    // bg cards
+        cream: "#f2f0eb",
+        dark: "#0a0a0a",
         accent: {
-          DEFAULT: "#8b5cf6",
-          hover: "#7c3aed",
+          DEFAULT: "#6d28d9",
+          hover: "#5b21b6",
         },
-        muted: "rgba(255,255,255,0.35)",
-        "border-dark": "rgba(255,255,255,0.08)",
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        /* Keep legacy names so blog / work pages don't break */
+        primary: "#0a0a0a",
+        "primary-dark": "#ffffff",
+        surface: "#111111",
+        "surface-card": "#1a1a1a",
+        muted: "rgba(0,0,0,0.4)",
       },
       fontFamily: {
+        playfair: ["var(--font-playfair)", "Georgia", "serif"],
         syne: ["var(--font-syne)", "sans-serif"],
         inter: ["var(--font-inter)", "sans-serif"],
         primary: ["var(--font-inter)", "sans-serif"],
@@ -45,6 +42,11 @@ module.exports = {
       letterSpacing: {
         tightest: "-0.06em",
         hero: "-0.025em",
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
     },
   },

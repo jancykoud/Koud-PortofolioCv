@@ -1,12 +1,16 @@
-import { Syne, Inter } from "next/font/google";
+import { Playfair_Display, Inter, Syne } from "next/font/google";
 import "./globals.css";
-import PageTransition from "@/components/PageTransition";
-import Header from "@/components/Header";
-import StairTransition from "@/components/StairTransition";
-import { ModeProvider } from "@/components/ModeContext";
-import KonamiEasterEgg from "@/components/KonamiEasterEgg";
+import NavTop from "@/components/NavTop";
+import FloatingNav from "@/components/FloatingNav";
 
-// Syne — titres XXL éditoriaux
+const playfair = Playfair_Display({
+  variable: "--font-playfair",
+  subsets: ["latin"],
+  weight: ["400", "700", "900"],
+  display: "swap",
+});
+
+/* Kept for blog / work pages that still use font-syne class */
 const syne = Syne({
   variable: "--font-syne",
   subsets: ["latin"],
@@ -14,7 +18,6 @@ const syne = Syne({
   display: "swap",
 });
 
-// Inter — corps de texte
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
@@ -23,26 +26,25 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: "Jancy KOUD BANGA — Ingénieure Fullstack & SIG",
+  title: "Jancy KOUD BANGA — Ingénieur Fullstack & SIG",
   description:
-    "Ingénieure fullstack spécialisée dans les plateformes de données environnementales et scientifiques. React, TypeScript, Node.js, OGC/INSPIRE, IoT.",
+    "Ingénieur fullstack spécialisé dans les plateformes de données environnementales et scientifiques. React, Node.js, OGC/INSPIRE, IoT, ANR TERRA FORMA.",
   keywords: [
-    "ingénieure fullstack",
+    "ingénieur fullstack",
     "SIG",
     "OGC",
     "INSPIRE",
     "IoT",
     "React",
-    "TypeScript",
     "Node.js",
     "CNRS",
     "TERRA FORMA",
   ],
   authors: [{ name: "Jancy KOUD BANGA" }],
   openGraph: {
-    title: "Jancy KOUD BANGA — Ingénieure Fullstack & SIG",
+    title: "Jancy KOUD BANGA — Ingénieur Fullstack & SIG",
     description:
-      "Ingénieure fullstack spécialisée dans les plateformes de données environnementales et scientifiques. React, TypeScript, Node.js, OGC/INSPIRE, IoT.",
+      "Ingénieur fullstack spécialisé dans les plateformes de données environnementales et scientifiques.",
     type: "website",
     locale: "fr_FR",
     url: "https://jancy.dev",
@@ -50,22 +52,22 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jancy KOUD BANGA — Ingénieure Fullstack & SIG",
+    title: "Jancy KOUD BANGA — Ingénieur Fullstack & SIG",
     description:
-      "Ingénieure fullstack spécialisée dans les plateformes de données environnementales et scientifiques.",
+      "Ingénieur fullstack spécialisé dans les plateformes de données environnementales et scientifiques.",
   },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fr" className={`${syne.variable} ${inter.variable}`}>
-      <body className="bg-primary text-primary-dark antialiased">
-        <ModeProvider>
-          <Header />
-          <StairTransition />
-          <PageTransition>{children}</PageTransition>
-          <KonamiEasterEgg />
-        </ModeProvider>
+    <html
+      lang="fr"
+      className={`${playfair.variable} ${syne.variable} ${inter.variable}`}
+    >
+      <body className="antialiased">
+        <NavTop />
+        <FloatingNav />
+        {children}
       </body>
     </html>
   );
